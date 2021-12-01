@@ -39,5 +39,16 @@ const evalNumb = point => evalNumb2(Math.abs(point.row) +
 const evalNumb2 = sumv => rowv => [0, 0, 2, 6, 12][sumv] + rowv -
   [0, 0, -1, -2, -3][sumv];
 
+/**
+ * Generate a range of Integers with the length (size) and starting point
+ * specfied
+ *
+ * @param {Integer} size Length of range generated
+ * @param {Integer} start Lowest number in range
+ * @returns {Array} Array of numbers from start to start + size - 1;
+ */
+const rangeNum = (size, start) => [...Array(size).keys()].map(x => x + start);
+
 exports.zip = zip;
 exports.evalNumb = evalNumb;
+exports.rangeNum = rangeNum;

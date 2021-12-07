@@ -65,7 +65,7 @@ const setXvalInRect = (indx, indx2, x) =>
 /**
  * Find the centers of all X locations
  * 
- * @param {Array} rect Retangleb eing filed
+ * @param {Array} rect Retangle being filed
  * @return {Array} center points of where the X-pentomino will go
  */
 const setXcenters = rect => loopXforRow(genRange(rect[0].length),

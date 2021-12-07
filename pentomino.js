@@ -11,11 +11,12 @@
 const tTreeMain = require('./tree_main_branch');
 const pentOutput = require('./pent_output');
 const rectGetX = require('./rect_getXlocations');
+const rectHoles = require('./rect_holes');
 
 /**
  * Temporary non-functional programming debugging/testing code.
  */
-console.log(tTreeMain.treeData());
+//console.log(tTreeMain.treeData());
 xxx = rectGetX.solverGetRectsWithX();
 outstr = '';
 for (let i = 0; i < 4; i++) {
@@ -24,12 +25,18 @@ for (let i = 0; i < 4; i++) {
     outstr = outstr.concat(pentStr);
   }
 }
-console.log(outstr);
-console.log(xxx[1][1]);
-console.log(pentOutput.pentToString(xxx[0][2]));
+//console.out(outstr);
+
+/**
+ * Test the valid hole size checking code.
+ */
 xxx[3][1][0][0] = 'I';
 xxx[3][1][1][0] = 'I';
 xxx[3][1][2][0] = 'I';
 xxx[3][1][3][0] = 'I';
 xxx[3][1][4][0] = 'I';
-console.log(pentOutput.pentToString(xxx[3][1]));
+
+console.log(rectHoles.areHolesValidSizes(xxx[3][1]));
+console.log(rectHoles.areHolesValidSizes(xxx[0][2]));
+console.log(rectHoles.areHolesValidSizes(xxx[3][0]));
+console.log(rectHoles.areHolesValidSizes(xxx[0][0]));

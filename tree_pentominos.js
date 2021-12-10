@@ -38,7 +38,7 @@ const getPentNumbers = x => wrapAllOrientations(0, getPts(x));
  * @param {Array} x list of points
  * @return {Array} nested Arrays of all pentomino orientations for this node
  */
-const wrapAllOrientations = (n, x) => n > 7 ? 2**23 :
+const wrapAllOrientations = (n, x) => n > 7 ? (2 ** 23) :
   [expandAnOrientation(n, x), wrapAllOrientations(n+1, x)];
 
 /**

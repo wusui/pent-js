@@ -12,6 +12,8 @@ const tTreeMain = require('./tree_main_branch');
 const pentOutput = require('./pent_output');
 const rectGetX = require('./rect_getXlocations');
 const rectHoles = require('./rect_holes');
+const rectNextStart = require('./rect_next_start');
+const rectSymmetry = require('./rect_symmetry');
 
 /**
  * Temporary non-functional programming debugging/testing code.
@@ -40,3 +42,27 @@ console.log(rectHoles.areHolesValidSizes(xxx[3][1]));
 console.log(rectHoles.areHolesValidSizes(xxx[0][2]));
 console.log(rectHoles.areHolesValidSizes(xxx[3][0]));
 console.log(rectHoles.areHolesValidSizes(xxx[0][0]));
+
+console.log(rectNextStart.findNextStartSq(xxx[3][1]));
+console.log(rectNextStart.findNextStartSq(xxx[0][0]));
+
+xxx[2][4][0][2] = 'W';
+xxx[2][4][0][3] = 'W';
+xxx[2][4][1][1] = 'W';
+xxx[2][4][1][2] = 'W';
+xxx[2][4][2][1] = 'W';
+
+console.log(rectSymmetry.checkSym(xxx[2][2]));
+console.log(rectSymmetry.checkSym(xxx[1][5]));
+console.log(pentOutput.pentToString(xxx[2][4]));
+console.log(rectSymmetry.checkSym(xxx[2][4]));
+console.log(rectSymmetry.checkSym(xxx[2][3]));
+
+xxx[2][2][3][9] = 'W';
+xxx[2][2][3][8] = 'W';
+xxx[2][2][2][8] = 'W';
+xxx[2][2][2][7] = 'W';
+xxx[2][2][1][6] = 'W';
+console.log(rectSymmetry.checkSym(xxx[2][2]));
+
+

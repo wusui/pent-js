@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -19,12 +19,20 @@ const tPentominos = require('./tree_pentominos');
 const tGenSymbols = require('./tree_gen_symbols');
 
 /**
+ * Get complete tree to be used by the rectangle searching code.
+ *
+ * @return {Array} search tree
+ */
+exports.treeData = () =>
+  simplePentTree(tGenSymbols.generateTreeWithSymbols(generateTree()));
+
+/**
  * Generate an instance of the pentomino tree
  * 
  * @return {Array} Complete tree
  */
-const generateTree = () => pentominoTree({point: {row: 0, col: 0},
-  parent: undefined});
+const generateTree = () =>
+  pentominoTree({point: {row: 0, col: 0}, parent: undefined});
 
 /**
  * Generate pentomino tree.
@@ -44,8 +52,8 @@ const pentominoTree = x => tPentominos.setPentominos(getFullTree(4, [x]));
  * @param {node} x Root node
  * @return {Array} List of nodes forming the tree
  */
-const getFullTree = (c, x) => c === 0 ? x : getFullTree(c - 1,
-  setTreeLev(x));
+const getFullTree = (c, x) =>
+  c === 0 ? x : getFullTree(c - 1, setTreeLev(x));
 
 /**
  * Add a level onto the tree.
@@ -61,8 +69,8 @@ const setTreeLev = x => ptAndPathWrapper(dupPointFixer(x));
  * @param {Array} x Tree of nodes found so far
  * @return {Array} List of nodes forming the tree (updated)
  */
-const dupPointFixer = x => tFixDupPts.removeDupPoints(
-  x.map(treeNode.addBranches(x)));
+const dupPointFixer = x =>
+  tFixDupPts.removeDupPoints(x.map(treeNode.addBranches(x)));
 
 /**
  * Wrap the calls that generate the new points, remove duplicate paths, and
@@ -81,8 +89,9 @@ const ptAndPathWrapper = x => setBranchLinks(dupPathFixer(x))(x);
  * @param {Array} g List of nodes to e added
  * @return {Array} updaated tree
  */
-const dupPathFixer = g => tFixPathDups.rmDupPaths(
-  tTreeFigures.getFigs(tTreeMakeTier.genNextTier(g))(g));
+const dupPathFixer = g =>
+  tFixPathDups.rmDupPaths(tTreeFigures.getFigs
+  (tTreeMakeTier.genNextTier(g))(g));
 
 /**
  * When this function is called, there are two sets of nodes.  One
@@ -98,23 +107,14 @@ const dupPathFixer = g => tFixPathDups.rmDupPaths(
 const setBranchLinks = p => g =>tNewBranches.assignBranchLinks(p)(g).concat(p);
 
 /**
- * Get complete tree to be used by the rectangle searching code.
- *
- * @return {Array} search tree
- */
-const treeData = () => simplePentTree(tGenSymbols.generateTreeWithSymbols(
-  generateTree()));
-
-/**
  * Remove extraneous properties.  Intermediate nodes will have points,
  * parents, and branches.  Leaf nodes will have points, parents, and
  * symbol values
  *
  * @param {Array} x tree
- * @returns {Array} Modified tree
+ * @return {Array} Modified tree
  */
-const simplePentTree = x => x.map(x => x.hasOwnProperty('branches') ?
+const simplePentTree = x =>
+  x.map(x => x.hasOwnProperty('branches') ?
   ({point: x.point, parent: x.parent, branches: x.branches}) :
   ({point: x.point, parent: x.parent, symbol: x.symbol}));
-
-exports.treeData = treeData;

@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -13,7 +13,7 @@
  * @param {Array} x Rectangle to be filled
  * @return {Array} [Row, Column] coordinates of first empty square
  */
-const findNextStartSq = x = x=> findBestRowWrap(findFirstEmptyPerRow(x));
+exports.findNextStartSq = x = x=> findBestRowWrap(findFirstEmptyPerRow(x));
 
 /**
  * Find first blank spot in each row.
@@ -42,5 +42,3 @@ const findBestRowWrap = rowData => findRowWithBestColValue(rowData,
  */
 const findRowWithBestColValue = (rowData, rowCol) => [rowData.findIndex(y => y
   == rowCol), rowCol];
-
-exports.findNextStartSq = findNextStartSq;

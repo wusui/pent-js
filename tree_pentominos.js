@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -16,7 +16,7 @@ const pentUtils = require('./pent_utils');
  * @param {Array} p Existing Tree
  * @return {Array} Tree with pentomino value set in appropriate nodes
  */
-const setPentominos = p => p.map(x => x.hasOwnProperty('figure') ?
+exports.setPentominos = p => p.map(x => x.hasOwnProperty('figure') ?
   {...x, 'pentomino': Math.min(...getPentNumbers(x).flat(10))} : x);
 
 /**
@@ -161,7 +161,7 @@ const removeOrigin = q => q.filter(x => x.row != 0 || x.col != 0);
  * @param {Array} q List of points
  * @return {Integer} corresponding figure value
  */
-const reduceToPentNumb = q => q.map(x => 2 ** pentUtils.evalNumb(x)).reduce
+const reduceToPentNumb = q => q.map(x => (2 ** pentUtils.evalNumb(x))).reduce
   ((a, b) => a + b, 0);
 
 /**
@@ -248,5 +248,3 @@ const getFPoint = (x, r) => getFcol(x - (r * r))(r);
  * @return {Array} point object (in row: col: form)
  */
 const getFcol = rw => x => ({'row': rw, 'col': x - Math.abs(rw)});
-
-exports.setPentominos = setPentominos;

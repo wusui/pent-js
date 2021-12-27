@@ -1,3 +1,8 @@
+/**
+ * (c) 2021 Warren Usui MOPFPPP
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
+ */
+
 const pUtils = require('./pent_utils');
 
 /**
@@ -7,7 +12,7 @@ const pUtils = require('./pent_utils');
  * @param {Array} p List of nodes
  * @return {Integer} Index of duplicate entry
  */
-const rmDupPaths = p => curryFirstDupAndRepeat(firstDupFound(p))(p);
+exports.rmDupPaths = p => curryFirstDupAndRepeat(firstDupFound(p))(p);
 
 /**
  * Remove the entry corresponding to the duplicate node entry and
@@ -18,7 +23,7 @@ const rmDupPaths = p => curryFirstDupAndRepeat(firstDupFound(p))(p);
  * @param {Array} p List of new nodes
  */
 const curryFirstDupAndRepeat = z => p => z < 0 ? p :
-  rmDupPaths(removeDups(addDupLabel(z)(p)));
+  exports.rmDupPaths(removeDups(addDupLabel(z)(p)));
 
 /**
  * Use zipped file from alignSetFindDups to find the first figure value
@@ -49,7 +54,7 @@ const alignSetFindDups = f => pUtils.zip(f, Array.from(new Set(f)));
  * @return List of nodes with iamdup property added to nodes with duplicate
  *         values of figure.
  */
-const addDupLabel = dup_node => p => p.map((x,indx) => indx === dup_node ?
+const addDupLabel = dup_node => p => p.map((x,indx) => (indx === dup_node) ?
         ({...x, 'iamadup': 0}) : x);
 
 /**
@@ -60,5 +65,3 @@ const addDupLabel = dup_node => p => p.map((x,indx) => indx === dup_node ?
  *         iamadup property
  */       
 const removeDups = p => p.filter(x => !x.hasOwnProperty('iamadup'));
-
-exports.rmDupPaths = rmDupPaths;

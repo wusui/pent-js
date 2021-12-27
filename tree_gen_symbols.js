@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -17,7 +17,7 @@ const pentUtils = require('./pent_utils');
  * @param {Array} t Tree
  * @return {Array} Updated tree
  */
-const generateTreeWithSymbols = t => addSymbolProp(symbolEntries(t))(t);
+exports.generateTreeWithSymbols = t => addSymbolProp(symbolEntries(t))(t);
 
 /**
  * For a node in the tree, add a symbol property if needed.
@@ -55,5 +55,3 @@ const getFigTable = t => getFigInfo(t).reduce((map, pent) => ({...map, [pent]:
  */
 const getFigInfo = t => t.filter(x => x.hasOwnProperty('pentomino')).map(
         x => x.pentomino);
-
-exports.generateTreeWithSymbols = generateTreeWithSymbols

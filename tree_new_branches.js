@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -18,7 +18,7 @@
  * @param {Array} topn Existing tree
  * @return {Array} tree with links properly set
  */
-const assignBranchLinks = bottom => topn => fixNewBranchesWrap(
+exports.assignBranchLinks = bottom => topn => fixNewBranchesWrap(
   setNewBranches(bottom)(topn));
 
 /**
@@ -126,5 +126,3 @@ const findBranches = size => node => binfo => binfo.map(
  */
 const setBranchValues = size => node => (x, indx) => x == node ?
   indx + size : -1;
-
-exports.assignBranchLinks = assignBranchLinks

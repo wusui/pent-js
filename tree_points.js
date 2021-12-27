@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -18,7 +18,7 @@
  * @param {point} y Second point
  * @return {Boolean} true if x and y are the same, false otherwise
  */
-const compPoints = x => y => x['row'] === y['row'] && x['col'] == y['col'];
+exports.compPoints = x => y => x['row'] === y['row'] && x['col'] == y['col'];
 
 /**
  * Given a point, list all valid neighboring points on the grid.
@@ -26,7 +26,7 @@ const compPoints = x => y => x['row'] === y['row'] && x['col'] == y['col'];
  * @param {point} point Point
  * @return {Array} List of valid points next to point.
  */
-const getNextPoints = point => getNeighbors(point).filter(isValidLocation);
+exports.getNextPoints = point => getNeighbors(point).filter(isValidLocation);
 
 /**
  * Given a point, list location of all possible neighboring points on the
@@ -50,6 +50,3 @@ const getNeighbors = point => [{row: point.row, col: point.col + 1},
  */
 const isValidLocation = point => point.col >= 0 && (point.row >= 0 ||
   point.col > 0);
-
-exports.compPoints = compPoints;
-exports.getNextPoints = getNextPoints;

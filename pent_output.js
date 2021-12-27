@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -15,7 +15,7 @@
  * @param {Array} x Two dimensional board representation
  * @return {String} displayable string representation
  */
-const pentToString = x => ''.concat(x.reduce(rowToString, '')).concat('\n');
+exports.pentToString = x => ''.concat(x.reduce(rowToString, '')).concat('\n');
 
 /**
  * Convert a row of the pentomino solution Array into a string
@@ -25,5 +25,3 @@ const pentToString = x => ''.concat(x.reduce(rowToString, '')).concat('\n');
  * @return {String} String representation of data so far
  */
 const rowToString = (p1, p2) => p1.concat(p2.join('').concat('\n'));
-
-exports.pentToString = pentToString;

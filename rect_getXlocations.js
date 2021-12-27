@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -14,7 +14,7 @@ const pentUtils = require('./pent_utils');
  * @return {Array} list of rectangles of all valid dimensions with all
  *   upper left quadrant locations for the X-pentomino set.
  */
-const solverGetRectsWithX = () => setupRectangles(pentUtils.rangeNum(4, 3));
+exports.solverGetRectsWithX = () => setupRectangles(pentUtils.rangeNum(4, 3));
 
 /**
  * Generate a rectangle for each of the possible sizes.
@@ -98,5 +98,3 @@ const loopXforRow = (x, y) => x.map(z => loopXforCol(z)(y)).flat(1);
  * @param {Array} list of X-pentomino center points
  */
 const loopXforCol = x => y => y.map(z => [z, x]);
-
-exports.solverGetRectsWithX = solverGetRectsWithX

@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -26,10 +26,10 @@ const tPoints = require('./tree_points');
  * @return {node} new node with offspring property added when the node
  *         has no branches
  */
-const addBranches = tree => (tnode, index) =>
+exports.addBranches = tree => (tnode, index) =>
   tnode.hasOwnProperty('branches') ?
   tnode : {...tnode, 'offspring': {'points':
-  checkAllPts(getParents(tree)(index)), 'index': index}};
+  checkAllPts(exports.getParents(tree)(index)), 'index': index}};;
 
 /**
  * Get all ancestor points to a node.
@@ -38,7 +38,7 @@ const addBranches = tree => (tnode, index) =>
  * @param {Integer} indx Index of this point in tree
  * @return {Array} List of ancestor points to tree[indx]
  */
-const getParents = tree => indx => findAllAncestors(tree)
+exports.getParents = tree => indx => findAllAncestors(tree)
   (tree[indx]).flat(5).map(tnode => tnode.point);
 
 /**
@@ -60,6 +60,3 @@ const findAllAncestors = tree => tnode => tnode.parent !== undefined ?
  * @return {Array} Array of neighboring points
  */
 const checkAllPts = x => x.map(tPoints.getNextPoints).flat(5);
-
-exports.addBranches = addBranches;
-exports.getParents = getParents;

@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -15,7 +15,7 @@ const pentUtils = require('./pent_utils');
  * @param {Array} tree Existing tree
  * @return {Array} updated tree with nodes of the next tier added
  */
-const genNextTier = tree => newNextTierNodes(
+exports.genNextTier = tree => newNextTierNodes(
   makeNextTier(getNewLeafInfo(findNewNodes(tree))));
 
 /**
@@ -71,5 +71,3 @@ const getFlatParentLinks = linkInfo => linkInfo.map(x =>
  * @returns {Array} list of tree nodes with offspring property
  */
 const findNewNodes = tree => tree.filter(x => x.hasOwnProperty('offspring'));
-
-exports.genNextTier = genNextTier;

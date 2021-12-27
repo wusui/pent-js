@@ -1,3 +1,8 @@
+/**
+ * (c) 2021 Warren Usui MOPFPPP
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
+ */
+
 const tPoints = require('./tree_points');
 const treeNode = require('./tree_nodes');
 
@@ -9,7 +14,7 @@ const treeNode = require('./tree_nodes');
  *         added nodes) where none of the nodes ancestor nodes match the
  *         node being added.
  */
-const removeDupPoints = tree => tree.map(removeSamePoint(tree));
+exports.removeDupPoints = tree => tree.map(removeSamePoint(tree));
 
 /**
  * If node has offspring, reset offspring property to be Array of nodes that
@@ -56,5 +61,3 @@ const checkDupPoint = plist => pointList => pointList.filter(
  * @return {Boolean} 
  */
 const pointNotMatch = point => pentry => !tPoints.compPoints(point)(pentry);
-
-exports.removeDupPoints = removeDupPoints;

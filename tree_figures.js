@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -24,7 +24,7 @@ const pentUtils = require('./pent_utils');
  * @param {Array} tree Existing tree
  * @return {Array} New nodes with figure values assigned
  */
-const getFigs = tnew => tree => tnew.map(setFigValue(tree));
+exports.getFigs = tnew => tree => tnew.map(setFigValue(tree));
 
 /**
  * Assign figure property to a specific node.
@@ -34,7 +34,7 @@ const getFigs = tnew => tree => tnew.map(setFigValue(tree));
  * @return {node} Node with figure set
  */
 const setFigValue = tree => tnode => ({...tnode,
-  'figure': getFigValue(tree)(tnode)});
+  "figure": getFigValue(tree)(tnode)});
 
 /**
  * Recursively calculate the figure value by calling evalNumb for all
@@ -44,8 +44,6 @@ const setFigValue = tree => tnode => ({...tnode,
  * @param {node} tnode Node in tree
  * @return {Integer} unique Id for this figure
  */
-const getFigValue = tree => tnode => tnode.parent !== undefined ?
-  (2 ** pentUtils.evalNumb(tnode.point) +
-  getFigValue(tree)(tree[tnode.parent])) : 0;
-
-exports.getFigs = getFigs;
+const getFigValue = tree => tnode => (tnode.parent === undefined) ? 0 :
+  ((2 ** (pentUtils.evalNumb(tnode.point))) +
+  (getFigValue(tree)(tree[tnode.parent])));

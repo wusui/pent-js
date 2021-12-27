@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -16,7 +16,7 @@
  * @param {Array} board Rectangle being filled
  * @return {Boolean} True if symmetric and W-pentomino is filled in early
  */
-const checkSym = board => doSymChecks(alignBoard(board))();
+exports.checkSym = board => doSymChecks(alignBoard(board))();
 
 /**
  * Return true if X-pentomino location causes symmetry and the W-pentomino
@@ -84,5 +84,3 @@ const checkCenter = (board, row) => board[row].filter(
  */
 const wChecker = board => board.slice(0, middleRowNumb(board)).flat(1).filter(
   x => x == "W").length >= 2;
-  
-exports.checkSym = checkSym;

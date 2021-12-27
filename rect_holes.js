@@ -1,6 +1,6 @@
 /**
  * (c) 2021 Warren Usui MOPFPPP
- * This code is licensed under MIT license (see LICENSE.txt for details)
+ * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
 /**
@@ -16,7 +16,7 @@
  * @return {Boolean} True if it is possible to fit pentominoes on this board,
  *         false if not.
  */
-const areHolesValidSizes = board => countHoleSizes(
+exports.areHolesValidSizes = board => countHoleSizes(
   mergeBlankRows(false, mergeBlankRows(true, getOpenRows(board))));
 
 /**
@@ -239,5 +239,3 @@ const passOneHoles = (rowSegLists, rowSegComb) =>
  */
 const detectValidGroups = rowSegComb => rowSegComb.map(x => x.map(
   y => y[2])).map(z => z.reduce((a, b) => a && (!b), []));
-
-exports.areHolesValidSizes = areHolesValidSizes;

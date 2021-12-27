@@ -15,66 +15,33 @@ const rectHoles = require('./rect_holes');
 const rectSymmetry = require('./rect_symmetry');
 const rectFindPent = require('./rect_find_pent');
 const rectPlacePent = require('./rect_place_pent');
+const pentUtils = require('./pent_utils');
 
-// const findPentSolutions = () => func1(tTreeMain.treeData());
+//tree = tTreeMain.treeData();
+//xxx = rectGetX.solverGetRectsWithX();
 
-//const func1 = tree => func3(tree)(getPentominoStartingLoc(tree)(0))
-//  (rectGetX.solverGetRectsWithX());
-//const func1 = tree => func3(tree)(getPentominoStartingLoc(tree)(0))
-//  (rectGetX.solverGetRectsWithX());
-//const getPentominoStartingLoc = tree => node => 'branches' in tree[node] ?
-//  getPentominoStartingLoc(tree)(tree[node]['branches'][0]) : node;
+const pentominoRectangles = () =>
+  pentUtils.rangeNum(2, 0).
+  map(x => solveSize(x)).reduce((a, b) => a + b, '');
 
-//const func3 = tree => startIndex => rectList =>
-//  console.log("xxxxx", startIndex, tree[startIndex], rectList);
+const solveSize = x => handlePlacements(x,
+  tTreeMain.treeData(), rectGetX.solverGetRectsWithX());
 
-//findPentSolutions()
+const handlePlacements = (x, tree, rect) =>
+  rect[x].map(x => solver(tree, x)).reduce((a,b) => a + b, '');
 
-tree = tTreeMain.treeData();
-console.log(tree[0]);
-xxx = rectGetX.solverGetRectsWithX();
-//sindx = getPentominoStartingLoc(tree)(0);
-//console.log("sindx", sindx);
-//console.log(tree);
-//xxx[3][1][0][1] = 'X';
-//xxx[3][1][1][0] = 'X';
-//xxx[3][1][5][5] = 'L';
-console.log(xxx[3][1]);
-foo = rectFindPent.getPlacements(tree)(xxx[3][1]);
-console.log("rect placement value", foo, foo.map(x => tree[x]));
-console.log(rectHoles.areHolesValidSizes(xxx[3][1]));
-console.log(rectSymmetry.checkSym(xxx[3][1]));
-console.log('answer', rectPlacePent.putPentInRect(tree, xxx[3][1], 75));
-console.log("_____________________________________________");
-
-
-const func1 = tree => rect =>
-  func2(tree)(getPentominoStartingLoc(tree)(0))(rect);
-
-const func2 = tree => rect => {
-    
-    console.log("func2 rect", rect);
-    v1 = rectFindPent.getPlacements(tree)(rect);
-    console.log("func2", v1);
-    return v1.map(x => foo1(tree, x, rect));
+const solver = (tree, rect) => {
+  if (! rectHoles.areHolesValidSizes(rect)) return '';
+  if (rectSymmetry.checkSym(rect)) return '';
+  if (rect.flat(1).find(x => x == '.') == undefined) {
+    return pentOutput.pentToString(rect);
+  }
+  pents = rectFindPent.getPlacements(tree)(rect);
+  if (pents === []) return '';
+  return pents.reduce((a, b) => a + (solver(tree,
+          rectPlacePent.putPentInRect(tree, rect, b))), '');
 }
 
-const foo1 = (tree, x, rect) => ["foo1", x];
-
-const xxfunc2 = tree => rect =>
-  rectFindPent.getPlacements(tree)(rect).map(
-  x => wrapMakeSureItsOkay(tree, rectPlacePent.putPentInRect(tree, rect, x)));
-
-const wrapMakeSureItsOkay = (tree, rect) => makeSureItsOkay(rect) ?
-  func3(tree, rect) : false;
-
-const func3 = (tree, rect) => {
-  console.log("func3", rect);
-  x = rect.flat(1).find(x => x == '.') == undefined ? rect : func2(tree)(rect);
-  console.log("func3 return", x);
-  return x;
-  }
-const makeSureItsOkay = rect => rectHoles.areHolesValidSizes(rect) &&
-  (! rectSymmetry.checkSym(rect));
-
-//console.log(func1(tree)(xxx[3][1]));
+console.log(pentominoRectangles());
+// console.log(pentUtils.rangeNum(4,0));
+// console.log(xxx[0].map(x => solver(tree, x)).reduce((a,b) => a + b, ''));

@@ -25,7 +25,7 @@ const pentUtils = require('./pent_utils');
  * @return {String} pentomino solutions
  */
 exports.pentominoRectangles = () =>
-  pentUtils.rangeNum(1, 0).
+  pentUtils.rangeNum(4, 0).
   map(x => solveSize(x)).reduce((a, b) => a + b, '');
 
 /**

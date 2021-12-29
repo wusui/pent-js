@@ -6,5 +6,6 @@
 /**
  * Non-functional call to the pentomino solver.
  */
-console.log(require('./pentomino').pentominoRectangles());
-
+/*jslint devel: true */
+var require;
+console.log(require("./pentomino").pentominoRectangles());

@@ -8,20 +8,24 @@
  *
  * Routines to make data nicer for output.
  */
-
+var exports;
 /**
  * Convert Array representing a pentomino solution into a string.
- * 
- * @param {Array} x Two dimensional board representation
+ *
+ * @param {Array} board Two dimensional board representation
  * @return {String} displayable string representation
  */
-exports.pentToString = x => ''.concat(x.reduce(rowToString, '')).concat('\n');
+const pentToString = (board) => board.reduce(rowToString, "").concat("\n");
 
 /**
  * Convert a row of the pentomino solution Array into a string
- * 
- * @param {Array} p1 Solution so far
- * @param {Array} p2 Next row of data
+ *
+ * @param {Array} pSoFar Solution so far
+ * @param {Array} pNext Next row of data
  * @return {String} String representation of data so far
  */
-const rowToString = (p1, p2) => p1.concat(p2.join('').concat('\n'));
+const rowToString = (pSoFar, pNext) => pSoFar.concat(
+    pNext.join("").concat("\n")
+);
+
+exports.pentToString = pentToString;

@@ -3,12 +3,15 @@
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
+var exports;
+var require;
 /**
  * Tree New Branches Module
  *
  * Handle the linking of branches and parent properties when a new Array
  * of nodes is added to the bottom of the pentomino tree.
  */
+const pentUtils = require("./pent_utils");
 
 /**
  * Attach the links between the original tree and the new nodes so that
@@ -18,8 +21,9 @@
  * @param {Array} topn Existing tree
  * @return {Array} tree with links properly set
  */
-exports.assignBranchLinks = bottom => topn => fixNewBranchesWrap(
-  setNewBranches(bottom)(topn));
+const assignBranchLinks = (bottom) => (topn) => fixNewBranchesWrap(
+    setNewBranches(bottom)(topn)
+);
 
 /**
  * Call addNewBranches for new node. Otherwise copy existing node
@@ -28,10 +32,15 @@ exports.assignBranchLinks = bottom => topn => fixNewBranchesWrap(
  * @param {Array} tree Existing tree
  * @return {Array} tree with links possibly containing newbranches property
  */
-const setNewBranches = addon => tree =>
-  tree.map(x => x.hasOwnProperty('offspring') ?
-  addNewBranches(x, addon) : ({'point': x.point,
-  'parent': x.parent, 'branches': x.branches}));
+const setNewBranches = (addon) => (tree) => tree.map(
+    (x) => x.hasOwnProperty("offspring")
+    ? addNewBranches(x, addon)
+    : ({
+        "branches": x.branches,
+        "parent": x.parent,
+        "point": x.point
+    })
+);
 
 /**
  * Insert newbranches property into nodes that are getting new branches
@@ -41,9 +50,14 @@ const setNewBranches = addon => tree =>
  * @param {Array} addon List of nodes to be added
  * @return {Array} tree with addon merged in (still some branch adjustments
  *         needed
+ *
  */
-const addNewBranches = (tree, addon) => ({...tree,
-  'newbranches': addon.map(x => x.parent)});
+
+const addNewBranches = (tree, addon) => pentUtils.putInNewProp(
+    tree,
+    "newbranches",
+    addon.map((x) => x.parent)
+);
 
 /**
  * Assign new branches to former leaf nodes on the tree.  First curry
@@ -52,7 +66,7 @@ const addNewBranches = (tree, addon) => ({...tree,
  * @param {Array} tree Tree
  * @return (Array} tree with branch values set
  */
-const fixNewBranchesWrap = tree => fixNewBranches(tree.length)(tree);
+const fixNewBranchesWrap = (tree) => fixNewBranches(tree.length)(tree);
 
 /**
  * Call findABranch for all nodes in the tree
@@ -61,7 +75,9 @@ const fixNewBranchesWrap = tree => fixNewBranches(tree.length)(tree);
  * @param {Array} tree tree
  * @return {Array} updated tree
  */
-const fixNewBranches = size => tree => tree.map(x => findABranch(size)(x));
+const fixNewBranches = (size) => (tree) => tree.map(
+    (x) => findABranch(size)(x)
+);
 
 /**
  * Call fixABranch if this node has offspring property.  Otherwise return
@@ -69,21 +85,26 @@ const fixNewBranches = size => tree => tree.map(x => findABranch(size)(x));
  *
  * @param {Integer} size Number of element in tree
  * @param {Array} node Node in tree
- * @return {Array} updated node 
+ * @return {Array} updated node
  */
-const findABranch = size => node => node.hasOwnProperty('offspring') ?
-  fixABranch(size)(node) : node;
-  
+const findABranch = (size) => (node) => (
+    node.hasOwnProperty("offspring")
+    ? fixABranch(size)(node)
+    : node
+);
+
 /**
  * Return a new node.  Call findBranchWrap to get new branch Array.
  *
  * @param {Integer} size Number of element in tree
  * @param {Array} node Node in tree
- * @return {Array} updated node 
+ * @return {Array} updated node
  */
-const fixABranch = size => node => ({'point': node.point,
-  'parent': node.parent,
-  'branches': pullOutNegativeBranches(findBranchWrap(size)(node))});
+const fixABranch = (size) => (node) => ({
+    "branches": pullOutNegativeBranches(findBranchWrap(size)(node)),
+    "parent": node.parent,
+    "point": node.point
+});
 
 /**
  * Remove -1 entries from the list of branches.
@@ -91,7 +112,7 @@ const fixABranch = size => node => ({'point': node.point,
  * @param {Array} x Branch numbers with -1 replacing invalid entries
  * @return {Array} Branch numberss with -1 removed
  */
-const pullOutNegativeBranches = x => x.filter(y => y > 0);
+const pullOutNegativeBranches = (x) => x.filter((y) => y > 0);
 
 /**
  * Wrapper to pass newbranches information to the node
@@ -100,8 +121,9 @@ const pullOutNegativeBranches = x => x.filter(y => y > 0);
  * @param {node} node Element in the tree
  * @return {node} Updated tree node
  */
-const findBranchWrap = size => node => findBranches(size)
-  (node.offspring.index)(node.newbranches);
+const findBranchWrap = (size) => (node) => findBranches(size)(
+    node.offspring.index
+)(node.newbranches);
 
 /**
  * Set branch information in newbranch info Array.
@@ -111,8 +133,9 @@ const findBranchWrap = size => node => findBranches(size)
  * @param {binfo} newbranch information
  * @return {Array} list of new tree nodes
  */
-const findBranches = size => node => binfo => binfo.map(
-  setBranchValues(size)(node));
+const findBranches = (size) => (node) => (binfo) => binfo.map(
+    setBranchValues(size)(node)
+);
 
 /**
  * Point new branch to node beyond current top of the tree (in the list
@@ -124,5 +147,10 @@ const findBranches = size => node => binfo => binfo.map(
  * @param {Integer} indx Index of x in this tree
  * @return {Array} links to the new nodes in the concatenated list
  */
-const setBranchValues = size => node => (x, indx) => x == node ?
-  indx + size : -1;
+const setBranchValues = (size) => (node) => (x, indx) => (
+    x === node
+    ? indx + size
+    : -1
+);
+
+exports.assignBranchLinks = assignBranchLinks;

@@ -3,6 +3,8 @@
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
+var require;
+var exports;
 /**
  * Figure Module
  *
@@ -11,11 +13,11 @@
  *
  * The figure assigned to a node is determined by the point value in that node
  * and the point values of all ancestor nodes.  Each possible point location
- * is mapped to an integer.  When 2 is raised to that integer's power, a
+ * is mapped to an integer.  When 2 is raised to the power of that integer, a
  * unique bit location in an integer is returned.  The sum of all these
  * integers then results in a unique id for that set of points.
  */
-const pentUtils = require('./pent_utils');
+const pentUtils = require("./pent_utils");
 
 /**
  * Get figure properties for new nodes.
@@ -24,7 +26,7 @@ const pentUtils = require('./pent_utils');
  * @param {Array} tree Existing tree
  * @return {Array} New nodes with figure values assigned
  */
-exports.getFigs = tnew => tree => tnew.map(setFigValue(tree));
+const getFigs = (tnew) => (tree) => tnew.map(setFigValue(tree));
 
 /**
  * Assign figure property to a specific node.
@@ -33,8 +35,11 @@ exports.getFigs = tnew => tree => tnew.map(setFigValue(tree));
  * @param {node} tnode Entry in tree we are calculating figure for
  * @return {node} Node with figure set
  */
-const setFigValue = tree => tnode => ({...tnode,
-  "figure": getFigValue(tree)(tnode)});
+const setFigValue = (tree) => (tnode) => pentUtils.putInNewProp(
+    tnode,
+    "figure",
+    getFigValue(tree)(tnode)
+);
 
 /**
  * Recursively calculate the figure value by calling evalNumb for all
@@ -44,6 +49,12 @@ const setFigValue = tree => tnode => ({...tnode,
  * @param {node} tnode Node in tree
  * @return {Integer} unique Id for this figure
  */
-const getFigValue = tree => tnode => (tnode.parent === undefined) ? 0 :
-  ((2 ** (pentUtils.evalNumb(tnode.point))) +
-  (getFigValue(tree)(tree[tnode.parent])));
+const getFigValue = (tree) => (tnode) => (
+    tnode.parent === undefined
+    ? 0
+    : Math.pow(2, pentUtils.evalNumb(tnode.point)) + (
+        getFigValue(tree)(tree[tnode.parent])
+    )
+);
+
+exports.getFigs = getFigs;

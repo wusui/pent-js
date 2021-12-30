@@ -2,6 +2,8 @@
  * (c) 2021 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
+var require;
+var exports;
 
 /**
  * Node Module
@@ -13,7 +15,8 @@
  * immediate ancestor of this node on the tree) and branches (descendant
  * nodes on the tree).
  */
-const tPoints = require('./tree_points');
+const tPoints = require("./tree_points");
+const pentUtils = require("./pent_utils");
 
 /**
  * Given a node (indicated by both the node and an index into the tree
@@ -26,10 +29,14 @@ const tPoints = require('./tree_points');
  * @return {node} new node with offspring property added when the node
  *         has no branches
  */
-exports.addBranches = tree => (tnode, index) =>
-  tnode.hasOwnProperty('branches') ?
-  tnode : {...tnode, 'offspring': {'points':
-  checkAllPts(exports.getParents(tree)(index)), 'index': index}};;
+const addBranches = (tree) => (tnode, index) => (
+    tnode.hasOwnProperty("branches")
+    ? tnode
+    : pentUtils.putInNewProp(tnode, "offspring", {
+        "index": index,
+        "points": checkAllPts(getParents(tree)(index))
+    })
+);
 
 /**
  * Get all ancestor points to a node.
@@ -38,8 +45,9 @@ exports.addBranches = tree => (tnode, index) =>
  * @param {Integer} indx Index of this point in tree
  * @return {Array} List of ancestor points to tree[indx]
  */
-exports.getParents = tree => indx => findAllAncestors(tree)
-  (tree[indx]).flat(5).map(tnode => tnode.point);
+const getParents = (tree) => (indx) => findAllAncestors(tree)(
+    tree[indx]
+).flat(5).map((tnode) => tnode.point);
 
 /**
  * Recursively scan parent properties in the tree to get an Array of
@@ -50,8 +58,11 @@ exports.getParents = tree => indx => findAllAncestors(tree)
  * @return {Array} list of points further up the tree that are ancestors to
  *         this node.
  */
-const findAllAncestors = tree => tnode => tnode.parent !== undefined ?
-  [tnode, findAllAncestors(tree)(tree[tnode.parent])] : [tnode];
+const findAllAncestors = (tree) => (tnode) => (
+    tnode.parent !== undefined
+    ? [tnode, findAllAncestors(tree)(tree[tnode.parent])]
+    : [tnode]
+);
 
 /**
  * Get a list of all points that are next to points in an Array of points.
@@ -59,4 +70,7 @@ const findAllAncestors = tree => tnode => tnode.parent !== undefined ?
  * @param {Array} x Array of points
  * @return {Array} Array of neighboring points
  */
-const checkAllPts = x => x.map(tPoints.getNextPoints).flat(5);
+const checkAllPts = (x) => x.map(tPoints.getNextPoints).flat(5);
+
+exports.addBranches = addBranches;
+exports.getParents = getParents;

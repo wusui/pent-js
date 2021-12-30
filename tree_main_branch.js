@@ -3,36 +3,40 @@
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
+var require;
+var exports;
 /**
  * Main Tree Module
- * 
+ *
  * Generate the tree used to scan for pentominos
  */
-const tPoints = require('./tree_points');
-const treeNode = require('./tree_nodes');
-const tFixDupPts = require('./tree_fix_pt_dups');
-const tTreeMakeTier = require('./tree_make_tier');
-const tTreeFigures = require('./tree_figures');
-const tFixPathDups = require('./tree_fix_path_dups');
-const tNewBranches = require('./tree_new_branches');
-const tPentominos = require('./tree_pentominos');
-const tGenSymbols = require('./tree_gen_symbols');
+const tPoints = require("./tree_points");
+const treeNode = require("./tree_nodes");
+const tFixDupPts = require("./tree_fix_pt_dups");
+const tTreeMakeTier = require("./tree_make_tier");
+const tTreeFigures = require("./tree_figures");
+const tFixPathDups = require("./tree_fix_path_dups");
+const tNewBranches = require("./tree_new_branches");
+const tPentominos = require("./tree_pentominos");
+const tGenSymbols = require("./tree_gen_symbols");
 
 /**
  * Get complete tree to be used by the rectangle searching code.
  *
  * @return {Array} search tree
  */
-exports.treeData = () =>
-  simplePentTree(tGenSymbols.generateTreeWithSymbols(generateTree()));
+const treeData = () => simplePentTree(
+    tGenSymbols.generateTreeWithSymbols(generateTree())
+);
 
 /**
  * Generate an instance of the pentomino tree
- * 
+ *
  * @return {Array} Complete tree
  */
-const generateTree = () =>
-  pentominoTree({point: {row: 0, col: 0}, parent: undefined});
+const generateTree = () => pentominoTree(
+    {parent: undefined, point: {col: 0, row: 0}}
+);
 
 /**
  * Generate pentomino tree.
@@ -40,7 +44,7 @@ const generateTree = () =>
  * @param {node} x Root node
  * @return {Array} List of nodes forming the tree
  */
-const pentominoTree = x => tPentominos.setPentominos(getFullTree(4, [x]));
+const pentominoTree = (x) => tPentominos.setPentominos(getFullTree(4, [x]));
 
 /**
  * Recursively add levels onto a tree
@@ -52,8 +56,11 @@ const pentominoTree = x => tPentominos.setPentominos(getFullTree(4, [x]));
  * @param {node} x Root node
  * @return {Array} List of nodes forming the tree
  */
-const getFullTree = (c, x) =>
-  c === 0 ? x : getFullTree(c - 1, setTreeLev(x));
+const getFullTree = (c, x) => (
+    c === 0
+    ? x
+    : getFullTree(c - 1, setTreeLev(x))
+);
 
 /**
  * Add a level onto the tree.
@@ -61,7 +68,7 @@ const getFullTree = (c, x) =>
  * @param {Array} x Tree where level will be added
  * @return {Array} List of nodes forming the Tree
  */
-const setTreeLev = x => ptAndPathWrapper(dupPointFixer(x));
+const setTreeLev = (x) => ptAndPathWrapper(dupPointFixer(x));
 
 /**
  * Add branches to existing tree and remove nodes that duplicate points.
@@ -69,8 +76,9 @@ const setTreeLev = x => ptAndPathWrapper(dupPointFixer(x));
  * @param {Array} x Tree of nodes found so far
  * @return {Array} List of nodes forming the tree (updated)
  */
-const dupPointFixer = x =>
-  tFixDupPts.removeDupPoints(x.map(treeNode.addBranches(x)));
+const dupPointFixer = (x) => tFixDupPts.removeDupPoints(
+    x.map(treeNode.addBranches(x))
+);
 
 /**
  * Wrap the calls that generate the new points, remove duplicate paths, and
@@ -79,7 +87,7 @@ const dupPointFixer = x =>
  * @param {Array} x Tree of nodes found so far
  * @return {Array} List of nodes forming the tree (updated)
  */
-const ptAndPathWrapper = x => setBranchLinks(dupPathFixer(x))(x);
+const ptAndPathWrapper = (x) => setBranchLinks(dupPathFixer(x))(x);
 
 /**
  * First generate the next set of points to be added to the tree.  Then
@@ -89,9 +97,11 @@ const ptAndPathWrapper = x => setBranchLinks(dupPathFixer(x))(x);
  * @param {Array} g List of nodes to e added
  * @return {Array} updaated tree
  */
-const dupPathFixer = g =>
-  tFixPathDups.rmDupPaths(tTreeFigures.getFigs
-  (tTreeMakeTier.genNextTier(g))(g));
+const dupPathFixer = (g) => tFixPathDups.rmDupPaths(
+    tTreeFigures.getFigs(
+        tTreeMakeTier.genNextTier(g)
+    )(g)
+);
 
 /**
  * When this function is called, there are two sets of nodes.  One
@@ -104,7 +114,9 @@ const dupPathFixer = g =>
  * @param {Array} g List of new nodes to add to the tree
  * @return {Array} List of nodes forming the tree
  */
-const setBranchLinks = p => g =>tNewBranches.assignBranchLinks(p)(g).concat(p);
+const setBranchLinks = (p) => (g) => tNewBranches.assignBranchLinks(
+    p
+)(g).concat(p);
 
 /**
  * Remove extraneous properties.  Intermediate nodes will have points,
@@ -114,7 +126,10 @@ const setBranchLinks = p => g =>tNewBranches.assignBranchLinks(p)(g).concat(p);
  * @param {Array} x tree
  * @return {Array} Modified tree
  */
-const simplePentTree = x =>
-  x.map(x => x.hasOwnProperty('branches') ?
-  ({point: x.point, parent: x.parent, branches: x.branches}) :
-  ({point: x.point, parent: x.parent, symbol: x.symbol}));
+const simplePentTree = (x) => x.map((x) => (
+    x.hasOwnProperty("branches")
+    ? ({branches: x.branches, parent: x.parent, point: x.point})
+    : ({parent: x.parent, point: x.point, symbol: x.symbol})
+));
+
+exports.treeData = treeData;

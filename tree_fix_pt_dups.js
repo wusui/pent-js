@@ -14,7 +14,7 @@ const treeNode = require('./tree_nodes');
  *         added nodes) where none of the nodes ancestor nodes match the
  *         node being added.
  */
-exports.removeDupPoints = tree => tree.map(removeSamePoint(tree));
+const removeDupPoints = (tree) => tree.map(removeSamePoint(tree));
 
 /**
  * If node has offspring, reset offspring property to be Array of nodes that
@@ -24,9 +24,12 @@ exports.removeDupPoints = tree => tree.map(removeSamePoint(tree));
  * @param {node} tnode Node whose offspring values are being tested
  * @return {node} Tnode where offspring that are also ancestors are removed
  */
-const removeSamePoint = tree => tnode => tnode.hasOwnProperty('offspring') ?
-  {point: tnode['point'], parent: tnode['parent'],
-  offspring: removeSamePointOffspring(tree)(tnode)} : tnode;
+const removeSamePoint = (tree) => (tnode) => (
+    tnode.hasOwnProperty('offspring')
+    ? {point: tnode['point'], parent: tnode['parent'],
+    offspring: removeSamePointOffspring(tree)(tnode)}
+    : tnode
+);
 
 /**
  * Remove nodes from offspring list that are duplicates of ancestor nodes
@@ -35,10 +38,10 @@ const removeSamePoint = tree => tnode => tnode.hasOwnProperty('offspring') ?
  * @param {node} tnode Node whose offspring values are being tested
  * @returns {Array} offspring field modified with duplicates removed
  */
-const removeSamePointOffspring = tree => tnode =>
-  ({points: (checkDupPoint
-  (treeNode.getParents(tree)(tnode.offspring.index))
-  (tnode.offspring.points)), index: tnode.offspring.index});
+const removeSamePointOffspring = (tree) => (tnode) =>
+    ({points: (checkDupPoint
+    (treeNode.getParents(tree)(tnode.offspring.index))
+    (tnode.offspring.points)), index: tnode.offspring.index});
 
 /**
  * Scan an Array and filter entries to only allow values that do not match
@@ -50,8 +53,8 @@ const removeSamePointOffspring = tree => tnode =>
  * @return {Array} Subset of pointList which is the set of all points that
  *         are not in plist
  */
-const checkDupPoint = plist => pointList => pointList.filter(
-  x => plist.every(pointNotMatch(x)));
+const checkDupPoint = (plist) => (pointList) => pointList.filter(
+    x => plist.every(pointNotMatch(x)));
 
 /**
  * Return true if points do not match
@@ -60,4 +63,6 @@ const checkDupPoint = plist => pointList => pointList.filter(
  * @param {point} pentry Second point
  * @return {Boolean} 
  */
-const pointNotMatch = point => pentry => !tPoints.compPoints(point)(pentry);
+const pointNotMatch = (point) => (entry) => !tPoints.compPoints(point)(entry);
+
+exports.removeDupPoints = removeDupPoints;

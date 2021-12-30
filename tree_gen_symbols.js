@@ -4,12 +4,14 @@
  */
 
 /**
- * Generate pentomino symbols 
+ * Generate pentomino symbols
  *
  * Given a pentomino tree, extract pentomino figure numbers and assign
  * a corresponding symbol to each
  */
-const pentUtils = require('./pent_utils');
+var require;
+var exports;
+const pentUtils = require("./pent_utils");
 
 /**
  * For all nodes in a tree, add a symbol property if needed
@@ -17,7 +19,7 @@ const pentUtils = require('./pent_utils');
  * @param {Array} t Tree
  * @return {Array} Updated tree
  */
-exports.generateTreeWithSymbols = t => addSymbolProp(symbolEntries(t))(t);
+const generateTreeWithSymbols = (t) => addSymbolProp(symbolEntries(t))(t);
 
 /**
  * For a node in the tree, add a symbol property if needed.
@@ -25,17 +27,24 @@ exports.generateTreeWithSymbols = t => addSymbolProp(symbolEntries(t))(t);
  * @param {Object} tbl getFigTable data
  * @return {Object} updated node
  */
-const addSymbolProp = tbl => x => x.map(y => y.hasOwnProperty('pentomino') ?
-  ({...y, symbol: tbl[y.pentomino]}) : y);
+const addSymbolProp = (tbl) => (x) => x.map((y) => (
+    y.hasOwnProperty("pentomino")
+    ? pentUtils.putInNewProp(y, "symbol", tbl[y.pentomino])
+    : y
+));
 
+const PENT_SYMBOLS = "FPXNVTYWZLUI";
+Object.freeze(PENT_SYMBOLS);
 /**
  * Construct a table of symbols indexed by pentomino number
  *
  * @param {Array} t Tree
  * @return {Object} Object containing pentomino number to symbol associations
  */
-const symbolEntries = t => Object.fromEntries(new Map(pentUtils.zip(
-  Object.keys(getFigTable(t)), 'FPXNVTYWZLUI')));
+const symbolEntries = (t) => Object.fromEntries(new Map(pentUtils.zip(
+    Object.keys(getFigTable(t)),
+    PENT_SYMBOLS
+)));
 
 /**
  * Construct a table of counts indexed by pentomino number.  Used for
@@ -44,8 +53,14 @@ const symbolEntries = t => Object.fromEntries(new Map(pentUtils.zip(
  * @param {Array} t tree
  * @return {Array} List of symbolEntries
  */
-const getFigTable = t => getFigInfo(t).reduce((map, pent) => ({...map, [pent]:
-    (map[pent] || 0) + 1}), {});
+const getFigTable = (t) => getFigInfo(t).reduce(
+    (pmap, pent) => pentUtils.putInNewProp(
+        pmap,
+        [pent],
+        (pmap[pent] || 0) + 1
+    ),
+    {}
+);
 
 /**
  * Get all pentomino properties in all tree nodes
@@ -53,5 +68,8 @@ const getFigTable = t => getFigInfo(t).reduce((map, pent) => ({...map, [pent]:
  * @param {Array} x tree
  * @return {Array} List of pentomino numers
  */
-const getFigInfo = t => t.filter(x => x.hasOwnProperty('pentomino')).map(
-        x => x.pentomino);
+const getFigInfo = (t) => t.filter((x) => x.hasOwnProperty("pentomino")).map(
+    (x) => x.pentomino
+);
+
+exports.generateTreeWithSymbols = generateTreeWithSymbols;

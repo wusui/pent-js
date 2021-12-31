@@ -16,8 +16,3 @@ to the entry point of the solver and uses console.log to output it.  This progra
 takes no input as all of the knowledge about the pentomino shapes is generated
 by the program itself.  It runs in roughly 20 minutes on  an AMD Opteron(tm)
 Processor 4122 Server running Ubuntu 18.04.4 LTS Linux using node.js v16.13.1
-
-
-
-
-

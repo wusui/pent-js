@@ -67,10 +67,10 @@ const findAllAncestors = (tree) => (tnode) => (
 /**
  * Get a list of all points that are next to points in an Array of points.
  *
- * @param {Array} x Array of points
+ * @param {Array} apoints Array of points
  * @return {Array} Array of neighboring points
  */
-const checkAllPts = (x) => x.map(tPoints.getNextPoints).flat(5);
+const checkAllPts = (apoints) => apoints.map(tPoints.getNextPoints).flat(5);
 
 exports.addBranches = addBranches;
 exports.getParents = getParents;

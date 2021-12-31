@@ -11,10 +11,10 @@ var exports;
 /**
  * Scan for next starting square
  *
- * @param {Array} x Rectangle to be filled
+ * @param {Array} rect Rectangle to be filled
  * @return {Array} [Row, Column] coordinates of first empty square
  */
-const findNextStartSq = (x) => findBestRowWrap(findFirstEmptyPerRow(x));
+const findNextStartSq = (rect) => findBestRowWrap(findFirstEmptyPerRow(rect));
 
 /**
  * Find first blank spot in each row.
@@ -22,12 +22,12 @@ const findNextStartSq = (x) => findBestRowWrap(findFirstEmptyPerRow(x));
  * @param {Array} rect Rectangle to be filled
  * @return {Array} list of first empty spot in each row (100 if none).
  */
-const findFirstEmptyPerRow = (rect) => rect.map((x) => x.findIndex(
-    (y) => y === "."
-)).map((z) => (
-    z < 0
+const findFirstEmptyPerRow = (rect) => rect.map((row) => row.findIndex(
+    (col) => col === "."
+)).map((zpoint) => (
+    zpoint < 0
     ? 100
-    : z
+    : zpoint
 ));
 
 /**
@@ -49,7 +49,7 @@ const findBestRowWrap = (rowData) => findRowWithBestColValue(
  * @return {Array} [Row, Column] coordinates of first empty square
  */
 const findRowWithBestColValue = (rowData, rowCol) => [rowData.findIndex(
-    (y) => y === rowCol
+    (colIndx) => colIndx === rowCol
 ), rowCol];
 
 exports.findNextStartSq = findNextStartSq;

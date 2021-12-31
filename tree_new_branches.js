@@ -33,12 +33,12 @@ const assignBranchLinks = (bottom) => (topn) => fixNewBranchesWrap(
  * @return {Array} tree with links possibly containing newbranches property
  */
 const setNewBranches = (addon) => (tree) => tree.map(
-    (x) => x.hasOwnProperty("offspring")
-    ? addNewBranches(x, addon)
+    (node) => node.hasOwnProperty("offspring")
+    ? addNewBranches(node, addon)
     : ({
-        "branches": x.branches,
-        "parent": x.parent,
-        "point": x.point
+        "branches": node.branches,
+        "parent": node.parent,
+        "point": node.point
     })
 );
 
@@ -56,7 +56,7 @@ const setNewBranches = (addon) => (tree) => tree.map(
 const addNewBranches = (tree, addon) => pentUtils.putInNewProp(
     tree,
     "newbranches",
-    addon.map((x) => x.parent)
+    addon.map((node) => node.parent)
 );
 
 /**
@@ -76,7 +76,7 @@ const fixNewBranchesWrap = (tree) => fixNewBranches(tree.length)(tree);
  * @return {Array} updated tree
  */
 const fixNewBranches = (size) => (tree) => tree.map(
-    (x) => findABranch(size)(x)
+    (node) => findABranch(size)(node)
 );
 
 /**
@@ -109,10 +109,12 @@ const fixABranch = (size) => (node) => ({
 /**
  * Remove -1 entries from the list of branches.
  *
- * @param {Array} x Branch numbers with -1 replacing invalid entries
- * @return {Array} Branch numberss with -1 removed
+ * @param {Array} branch Branch numbers with -1 replacing invalid entries
+ * @return {Array} Branch numbers with -1 removed
  */
-const pullOutNegativeBranches = (x) => x.filter((y) => y > 0);
+const pullOutNegativeBranches = (branch) => branch.filter(
+    (bNumb) => bNumb > 0
+);
 
 /**
  * Wrapper to pass newbranches information to the node
@@ -147,8 +149,8 @@ const findBranches = (size) => (node) => (binfo) => binfo.map(
  * @param {Integer} indx Index of x in this tree
  * @return {Array} links to the new nodes in the concatenated list
  */
-const setBranchValues = (size) => (node) => (x, indx) => (
-    x === node
+const setBranchValues = (size) => (node) => (bnode, indx) => (
+    bnode === node
     ? indx + size
     : -1
 );

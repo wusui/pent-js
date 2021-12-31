@@ -14,11 +14,13 @@ var exports;
  * Compare two points.  Points are considered the same if their corresponding
  * row values and col values are equal.
  *
- * @param {point} x First point
- * @param {point} y Second point
+ * @param {point} point1 First point
+ * @param {point} point2 Second point
  * @return {Boolean} true if x and y are the same, false otherwise
  */
-const compPoints = (x) => (y) => x.row === y.row && x.col === y.col;
+const compPoints = (point1) => (point2) => (
+    point1.row === point2.row && point1.col === point2.col
+);
 
 /**
  * Given a point, list all valid neighboring points on the grid.

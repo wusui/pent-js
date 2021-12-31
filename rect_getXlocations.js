@@ -23,12 +23,13 @@ const solverGetRectsWithX = () => setupRectangles(pentUtils.rangeNum(4, 3));
 /**
  * Generate a rectangle for each of the possible sizes.
  *
- * @param {Integer} size Number of rows in this set of rectangles
- * @param {Array} Rectangles of this row size with X-pentomino filled in
+ * @param {Array} sizes List of rectangle sizes (shortest dimension)
  * @return {Array} list of rectangles of all valid dimensions with all
  *   upper left quadrant locations for the X-pentomino set.
  */
-const setupRectangles = (sizes) => sizes.map((x) => addOneRect(x));
+const setupRectangles = (sizes) => sizes.map(
+    (indvSize) => addOneRect(indvSize)
+);
 
 const SIZE_OF_ALL_PENTS = 60;
 Object.freeze(SIZE_OF_ALL_PENTS);
@@ -51,18 +52,20 @@ const addOneRect = (size) => setXOneRect(
  * @param {Array} rect Rectangle to be filled
  * @return {Array} list of all valid rectangles
  */
-const setXOneRect = (rect) => setXcenters(rect).map((x) => rectSetX(
-    rect,
-    x
-)).filter((drect, indx) => indx !== 0 || drect === "");
+const setXOneRect = (rect) => setXcenters(rect).map(
+    (indvRect) => rectSetX(
+        rect,
+        indvRect
+    )
+).filter((drect, indx) => indx !== 0 || drect === "");
 
 /**
  * @param {Array} rect Rectangle
- * @param {Array} x Location of the center of the X-pentomino
+ * @param {Array} center Location of the center of the X-pentomino
  * @return {Array} Rectangle with X-pentomino filled in
  */
-const rectSetX = (rect, x) => rect.map((y, indx) => y.map(
-    (emptyInd, indx2) => setXvalInRect(indx, indx2, x, emptyInd)
+const rectSetX = (rect, center) => rect.map((indvRect, indx) => indvRect.map(
+    (emptyInd, indx2) => setXvalInRect(indx, indx2, center, emptyInd)
 ));
 
 /**
@@ -106,19 +109,23 @@ const genRange = (numb) => pentUtils.rangeNum(Math.floor((numb - 1) / 2), 1);
 /**
  * Generate list of points for possible row values
  *
- * @param {Integer} x Row dimension
- * @param {Integer} y Col dimension
+ * @param {Integer} rowDim Row dimension
+ * @param {Integer} colDim Col dimension
  * @return {Array} list of row values that are valid
  */
-const loopXforRow = (x, y) => x.map((z) => loopXforCol(z)(y)).flat(1);
+const loopXforRow = (rowDim, colDim) => rowDim.map(
+    (localIndex) => loopXforCol(localIndex)(colDim)
+).flat(1);
 
 /**
  * Generate list of points for possible column values
  *
- * @param {Integer} x Row dimension
- * @param {Integer} y Col dimension
+ * @param {Integer} rowDim Row dimension
+ * @param {Integer} colDim Col dimension
  * @param {Array} list of X-pentomino center points
  */
-const loopXforCol = (x) => (y) => y.map((z) => [z, x]);
+const loopXforCol = (rowDim) => (colDim) => colDim.map(
+    (localIndex) => [localIndex, rowDim]
+);
 
 exports.solverGetRectsWithX = solverGetRectsWithX;

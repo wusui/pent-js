@@ -41,45 +41,47 @@ const getOpenRows = (board) => rowOpWrapper(
  * @return {Array} Board with integer location values filled in
  */
 const getHoleNumbers = (board) => board.map(
-    (y, i) => getBlanksWrap(y, i)
-).flat(1).map((x) => x[0] * 100 + x[1]);
+    (indvBoard, indx) => getBlanksWrap(indvBoard, indx)
+).flat(1).map((intCalc) => intCalc[0] * 100 + intCalc[1]);
 
 /**
  * Scan a row of the board, extracting number values
  *
- * @param {Integer} x Row value
- * @param {Integer} j Column index
+ * @param {Integer} rowVal Row value
+ * @param {Integer} colIndx Column index
  * @return {Array} coordinates of blanks on the board
  */
-const getBlanksWrap = (x, j) => Object.values(x).map(
-    (y, i) => getBlanks(y, j, i)
-).filter((b) => (typeof b[1]) === "number");
+const getBlanksWrap = (rowVal, colIndx) => Object.values(rowVal).map(
+    (objVal, indx) => getBlanks(objVal, colIndx, indx)
+).filter((blankTester) => (typeof blankTester[1]) === "number");
 
 /**
  * Given a square, return the coordinates if the square is blank.
  *
- * @param {Integer} x Square value (blank or figure letter)
- * @param {Integer} j Row index
- * @param {Integer} z Column index
+ * @param {Integer} sqVal Square value (blank or figure letter)
+ * @param {Integer} rowIndex Row index
+ * @param {Integer} colIndex Column index
  *
  * @return {Array} Row/Column coordinates if blank.
  */
-const getBlanks = (x, j, z) => (
-    (x === ".")
-    ? [j, z]
-    : x
+const getBlanks = (sqVal, rowIndex, colIndex) => (
+    (sqVal === ".")
+    ? [rowIndex, colIndex]
+    : sqVal
 );
 
 /**
  * Mark the blank squares in the rectangle that start a row
  * of rectangles.
  *
- * @param {Array} x List of blank locations in Integer form
+ * @param {Array} blankLoc List of blank locations in Integer form
  * @return {Array} List of tuples consisting of the blank location and
  *   a true/false value that is true when the square to the left is not
  *   empty
  */
-const markRowHeads = (x) => x.map((y) => [y, x.includes(y - 1)]);
+const markRowHeads = (blankLoc) => blankLoc.map(
+    (blankInd) => [blankInd, blankLoc.includes(blankInd - 1)]
+);
 
 /**
  * We have a list of hole sizes.  Return true if they are all divisible
@@ -89,40 +91,43 @@ const markRowHeads = (x) => x.map((y) => [y, x.includes(y - 1)]);
  * @return {Boolean} True only if all holes have a valid size
  */
 const countHoleSizes = (holeSizes) => holeSizes.map(
-    (x) => x.length % 5
-).reduce((a, b) => a + b, 0) === 0;
+    (indvHole) => indvHole.length % 5
+).reduce((accum, newInfo) => accum + newInfo, 0) === 0;
 
 /**
  * Run reducing of markRowHeads data
  *
- * @param x {Array} Output of markRowHeads
+ * @param {Array} markRh Output of markRowHeads
  * @return {Array} List of lists of points in the same contiguous row
  */
-const rowOpWrapper = (x) => x.reduce(addPointToRow, []);
+const rowOpWrapper = (markRh) => markRh.reduce(addPointToRow, []);
 
 /**
  * Add point to row data. Start new list if front of row, otherwise
  * merge into last row.
  *
- * @param a {Array} Row data
+ * @param accum {Array} Row data
  * @param b {Array} markRowHeads data for this point
  * @return {Array} updated row data
  */
-const addPointToRow = (a, b) => (
-    b[1]
-    ? mergePtIntoExistingRow(a, b)
-    : a.concat([[b[0]]])
+const addPointToRow = (accum, markRh) => (
+    markRh[1]
+    ? mergePtIntoExistingRow(accum, markRh)
+    : accum.concat([[markRh[0]]])
 );
 
 /**
  * Merge a point into the last existing row
  *
- * @param x {Array} Row data
- * @param b {Array} markRowHeads data for this point
+ * @param rowData {Array} Row data
+ * @param markRh {Array} markRowHeads data for this point
  * @return {Array} updated row data
  */
-const mergePtIntoExistingRow = (x, b) => x.slice(0, -1).concat(
-    [x[x.length - 1].concat([b[0]])]
+const mergePtIntoExistingRow = (rowData, markRh) => rowData.slice(
+    0,
+    -1
+).concat(
+    [rowData[rowData.length - 1].concat([markRh[0]])]
 );
 
 /**
@@ -142,36 +147,35 @@ const mergeBlankRows = (flg, rowData) => combinedRows(
 /**
  * Get further possible combinations of contiguous rows
  *
- * @param {Array} x List of lists of contiguous blank spaces
- * @param {Array} List of 3-tuple lists consisting of all permutations of
- *   indices into x and a Boolean that is true if lists indexed by the
- *   first two indices can be merged
+ * @param {Array} bSpaces List of lists of contiguous blank spaces
  * @return {Array} Lists of possible row combinations
  */
-const morePossibleRowCombos = (x) => x.map((y, i) => rowComboWrap(x, i, y));
+const morePossibleRowCombos = (bSpaces) => bSpaces.map(
+    (bLocal, indx) => rowComboWrap(bSpaces, indx, bLocal)
+);
 
 /**
  * Wrapper for rowComboCheck (handle parameter passing)
  *
- * @param {Array} x List of blank points
- * @param {Integer} i column
- * @param {Integer} y row
+ * @param {Array} blankPoints List of blank points
+ * @param {Integer} iCol column
+ * @param {Integer} iRow row
  * @return {Array} Array of Boolean indicators that the combo specified is
  *   contiguous
  */
-const rowComboWrap = (x, i, y) => x.map(
-    (z, j) => [i, j, rowComboCheck(y, z)]
+const rowComboWrap = (blankPoints, iCol, iRow) => blankPoints.map(
+    (locVar, indx) => [iCol, indx, rowComboCheck(iRow, locVar)]
 );
 
 /**
  * Check if two rows given are contiguous
  *
- * @param {Array} y Row 1
- * @param {Array} z Row 2
+ * @param {Array} row1 Row 1
+ * @param {Array} row2 Row 2
  * @return true if contiguous, false otherwise
  */
-const rowComboCheck = (y, z) => y.map((q) => q + 100).filter(
-    (v) => z.includes(v)
+const rowComboCheck = (row1, row2) => row1.map((ival) => ival + 100).filter(
+    (rowValue) => row2.includes(rowValue)
 ).length > 0;
 
 /**
@@ -186,8 +190,8 @@ const rowComboCheck = (y, z) => y.map((q) => q + 100).filter(
  */
 const combinedRows = (rowInfo) => (rowData, flg) => rowMergeSwitch(
     recurseThruRows(rowData, groupRowInfo(rowInfo).filter(
-        (x) => x[2]
-    ).map((m) => [m[0], m[1]])),
+        (locFiltInd) => locFiltInd[2]
+    ).map((locMapInd) => [locMapInd[0], locMapInd[1]])),
     rowInfo,
     flg
 );
@@ -196,10 +200,13 @@ const combinedRows = (rowInfo) => (rowData, flg) => rowMergeSwitch(
  * Combined row information into one list (essentially flatten from the
  * top).
  *
- * @param {Array} rowInfo Row segement pairs and match indicator
+ * @param {Array} rowInfo Row segment pairs and match indicator
  * @return {Array} "top flattened" list of rowInfo
  */
-const groupRowInfo = (rowInfo) => rowInfo.reduce((a, b) => a.concat(b), []);
+const groupRowInfo = (rowInfo) => rowInfo.reduce(
+    (accum, rSegment) => accum.concat(rSegment),
+    []
+);
 
 /**
  * Step through row data, combining to form the complete set of points in
@@ -225,10 +232,10 @@ const recurseThruRows = (rowData, rowPairs) => (
  * @return {Array} merged copy of rowData
  */
 const rowMerge = (rowData, rowPairs) => rowData.map(
-    (x, i) => (
-        i === rowPairs[1]
-        ? [...(new Set(x.concat(rowData[rowPairs[0]])))]
-        : x
+    (locData, indx) => (
+        indx === rowPairs[1]
+        ? [...(new Set(locData.concat(rowData[rowPairs[0]])))]
+        : locData
     )
 );
 
@@ -257,10 +264,10 @@ const rowMergeSwitch = (rowSegLists, rowSegComb, flg) => (
  *         by an Array of corresponding point numbers
  */
 const passOneHoles = (rowSegLists, rowSegComb) => rowSegLists.filter(
-    (x, i) => (
-        x === "A"
+    (rowSeg, indx) => (
+        rowSeg === "A"
         ? "A"
-        : detectValidGroups(rowSegComb)[i]
+        : detectValidGroups(rowSegComb)[indx]
     )
 );
 
@@ -275,8 +282,8 @@ const passOneHoles = (rowSegLists, rowSegComb) => rowSegLists.filter(
  *         corresponding list of points are the set of points in a
  *         hole
  */
-const detectValidGroups = (rowSegComb) => rowSegComb.map((x) => x.map(
-    (y) => y[2]
-)).map((z) => z.reduce((a, b) => a && (!b), []));
+const detectValidGroups = (rowSegComb) => rowSegComb.map(
+    (rowSegIndx) => rowSegIndx.map((chkInd) => chkInd[2])
+).map((gIndex) => gIndex.reduce((accum, pgroup) => accum && (!pgroup), []));
 
 exports.areHolesValidSizes = areHolesValidSizes;

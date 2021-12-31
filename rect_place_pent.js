@@ -22,24 +22,24 @@ const rectNextStart = require("./rect_next_start");
  */
 const putPentInRect = (tree, rect, node) => regroupWrap(
     getPnodes(tree, node).flat(5).map(
-        (x) => constructPoint(
+        (point) => constructPoint(
             rectNextStart.findNextStartSq(rect)
-        )(tree, x)
+        )(tree, point)
     ).map(
-        (x) => modRect(rect, tree[node].symbol, x).flat(1)
+        (point) => modRect(rect, tree[node].symbol, point).flat(1)
     ).reduce(squareChkr),
     rect[0].length
 );
 
 /**
- * @param {Array} a List accumulator of reduced data
- * @param {character} character to be merge in if square is blank
+ * @param {Array} accum List accumulator of reduced data
+ * @param {Array} cList character to be merge in if square is blank
  * @return {character} new value in square
  */
-const squareChkr = (a, b) => a.map((x, indx) => (
-    x === "."
-    ? b[indx]
-    : x
+const squareChkr = (accum, cList) => accum.map((xchar, indx) => (
+    xchar === "."
+    ? cList[indx]
+    : xchar
 ));
 
 /**
@@ -51,9 +51,9 @@ const squareChkr = (a, b) => a.map((x, indx) => (
  * @return {Array} list of lines in new rect Array
  */
 const modRect = (rect, symbol, rpnt) => rect.map(
-    (x, indx) => (indx) === rpnt[0]
-    ? modLine(x, rpnt[1], symbol)
-    : x
+    (xchar, indx) => (indx) === rpnt[0]
+    ? modLine(xchar, rpnt[1], symbol)
+    : xchar
 );
 
 /**
@@ -104,11 +104,11 @@ const getPnodes = (tree, node) => (
  * Wrap regroup and remove empty Array from the end of the first parameter.
  *
  * @param {Array} pdata List of square values in the rectangle
- * @param {Integer} n Length of the rectangle
+ * @param {Integer} nleng Length of the rectangle
  * @return {Array} Rectangle reformed from list of square values
  */
-const regroupWrap = (pdata, n) => regroup(pdata, n).filter(
-    (x) => x.length > 0
+const regroupWrap = (pdata, nleng) => regroup(pdata, nleng).filter(
+    (rectPart) => rectPart.length > 0
 );
 
 /**
@@ -118,10 +118,10 @@ const regroupWrap = (pdata, n) => regroup(pdata, n).filter(
  * @param {Integer} n Length of the rectangle
  * @return {Array} Rectangle reformed from list of square values
  */
-const regroup = (pdata, n) => (
-    pdata.length < n
+const regroup = (pdata, nleng) => (
+    pdata.length < nleng
     ? [pdata]
-    : [pdata.slice(0, n), ...regroup(pdata.slice(n), n)]
+    : [pdata.slice(0, nleng), ...regroup(pdata.slice(nleng), nleng)]
 );
 
 exports.putPentInRect = putPentInRect;

@@ -3,8 +3,10 @@
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
-const tPoints = require('./tree_points');
-const treeNode = require('./tree_nodes');
+var exports;
+var require;
+const tPoints = require("./tree_points");
+const treeNode = require("./tree_nodes");
 
 /**
  * Apply removeSamePoint test to every entry in tree.
@@ -25,9 +27,12 @@ const removeDupPoints = (tree) => tree.map(removeSamePoint(tree));
  * @return {node} Tnode where offspring that are also ancestors are removed
  */
 const removeSamePoint = (tree) => (tnode) => (
-    tnode.hasOwnProperty('offspring')
-    ? {point: tnode['point'], parent: tnode['parent'],
-    offspring: removeSamePointOffspring(tree)(tnode)}
+    tnode.hasOwnProperty("offspring")
+    ? {
+        offspring: removeSamePointOffspring(tree)(tnode),
+        parent: tnode.parent,
+        point: tnode.point
+    }
     : tnode
 );
 
@@ -38,10 +43,12 @@ const removeSamePoint = (tree) => (tnode) => (
  * @param {node} tnode Node whose offspring values are being tested
  * @returns {Array} offspring field modified with duplicates removed
  */
-const removeSamePointOffspring = (tree) => (tnode) =>
-    ({points: (checkDupPoint
-    (treeNode.getParents(tree)(tnode.offspring.index))
-    (tnode.offspring.points)), index: tnode.offspring.index});
+const removeSamePointOffspring = (tree) => (tnode) => ({
+    index: tnode.offspring.index,
+    points: (checkDupPoint(
+        treeNode.getParents(tree)(tnode.offspring.index)
+    )(tnode.offspring.points))
+});
 
 /**
  * Scan an Array and filter entries to only allow values that do not match
@@ -54,14 +61,15 @@ const removeSamePointOffspring = (tree) => (tnode) =>
  *         are not in plist
  */
 const checkDupPoint = (plist) => (pointList) => pointList.filter(
-    x => plist.every(pointNotMatch(x)));
+    (point) => plist.every(pointNotMatch(point))
+);
 
 /**
  * Return true if points do not match
  *
  * @param {point} point First point
  * @param {point} pentry Second point
- * @return {Boolean} 
+ * @return {Boolean}
  */
 const pointNotMatch = (point) => (entry) => !tPoints.compPoints(point)(entry);
 

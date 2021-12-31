@@ -49,17 +49,17 @@ const alignBoard = (board) => (
  * @return {Array} New board layout with x axis and y axis reversed.
  */
 const flipBoard = (board) => board.reduce((prev, next) => next.map(
-    (item, i) => wrapPrevLine(i, prev).concat(item)
+    (item, indx) => wrapPrevLine(indx, prev).concat(item)
 ), []);
 
 /*
  * Extract prev item or new Array if not available
  *
- * @param {Integer} i Line index
+ * @param {Integer} indx Line index
  * @param {Array} prev Previous line information
  * @return {Array} List of lines with new line added.
  */
-const wrapPrevLine = (i, prev) => prev[i] || [];
+const wrapPrevLine = (indx, prev) => prev[indx] || [];
 
 /**
  * Return True if the number of rows are odd and the X-pentomino lines up
@@ -90,7 +90,7 @@ const middleRowNumb = (board) => (board.length - 1) / 2;
  * @return {Boolean} True if the middle of the X-pentomino is in this row
  */
 const checkCenter = (board, row) => board[row].filter(
-    (x) => x === "X"
+    (xchar) => xchar === "X"
 ).length === 3;
 
 /**
@@ -104,7 +104,7 @@ const wChecker = (board) => board.slice(
     0,
     middleRowNumb(board)
 ).flat(1).filter(
-    (x) => x === "W"
+    (wchar) => wchar === "W"
 ).length >= 2;
 
 exports.checkSym = checkSym;

@@ -29,8 +29,8 @@ const genNextTier = (tree) => newNextTierNodes(
  * @return {Array} point and index values of offspring
  */
 const getNewLeafInfo = (tree) => [tree.map(
-    (x) => x.offspring.points
-), tree.map((x) => x.offspring.index)];
+    (node) => node.offspring.points
+), tree.map((node) => node.offspring.index)];
 
 /**
  * Map tier information into tree node information
@@ -38,8 +38,8 @@ const getNewLeafInfo = (tree) => [tree.map(
  * @param {Array} info tier information in non-node form
  * @return {Array} tree nodes (with point and parent properties)
  */
-const newNextTierNodes = (info) => info.map((x) => (
-    {parent: x[1], point: x[0]}
+const newNextTierNodes = (info) => info.map((tier) => (
+    {parent: tier[1], point: tier[0]}
 ));
 
 /**
@@ -71,7 +71,7 @@ const getParentLinkValues = (nextLevel) => pentUtils.zip(
  * @param {Array} nextLevel offspring data in Arrays
  * @return {Array} lengths of nextLevel values
  */
-const extractLength = (x) => x[0].map((q) => q.length);
+const extractLength = (nextLevel) => nextLevel[0].map((lvl) => lvl.length);
 
 /**
  * Reformat tier data for use by makeNextTier
@@ -80,7 +80,7 @@ const extractLength = (x) => x[0].map((q) => q.length);
  * @return {Array} Tier data in flat form
  */
 const getFlatParentLinks = (linkInfo) => linkInfo.map(
-    (x) => new Array(x[0]).fill(x[1])
+    (link1) => new Array(link1[0]).fill(link1[1])
 );
 
 /**
@@ -90,7 +90,7 @@ const getFlatParentLinks = (linkInfo) => linkInfo.map(
  * @returns {Array} list of tree nodes with offspring property
  */
 const findNewNodes = (tree) => tree.filter(
-    (x) => x.hasOwnProperty("offspring")
+    (node) => node.hasOwnProperty("offspring")
 );
 
 exports.genNextTier = genNextTier;

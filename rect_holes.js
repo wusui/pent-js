@@ -17,10 +17,9 @@ var exports;
  * @return {Boolean} True if it is possible to fit pentominoes on this board,
  *         false if not.
  */
-const areHolesValidSizes = (board) => true
-//countHoleSizes(
-//   mergeBlankRows(false, mergeBlankRows(true, getOpenRows(board)))
-//);
+const areHolesValidSizes = (board) => countHoleSizes(
+    mergeBlankRows(false, mergeBlankRows(true, getOpenRows(board)))
+);
 
 /**
  * Return an Array of lists.  Each array entry is a consecutive set of

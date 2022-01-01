@@ -1,5 +1,5 @@
 /**
- * (c) 2021 Warren Usui MOPFPPP
+ * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
@@ -17,9 +17,10 @@ var exports;
  * @return {Boolean} True if it is possible to fit pentominoes on this board,
  *         false if not.
  */
-const areHolesValidSizes = (board) => countHoleSizes(
-    mergeBlankRows(false, mergeBlankRows(true, getOpenRows(board)))
-);
+const areHolesValidSizes = (board) => true
+//countHoleSizes(
+//   mergeBlankRows(false, mergeBlankRows(true, getOpenRows(board)))
+//);
 
 /**
  * Return an Array of lists.  Each array entry is a consecutive set of

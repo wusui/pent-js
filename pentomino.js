@@ -1,5 +1,5 @@
 /**
- * (c) 2021 Warren Usui MOPFPPP
+ * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
@@ -37,7 +37,7 @@ const pentominoRectangles = () => solveSize(tTreeMain.treeData())(
  * @param {Array} rect Pentomino solution rectangle
  * @return {String} pentomino Solutions
  */
-const solveSize = (tree) => (rect) => pentUtils.rangeNum(4, 0).map(
+const solveSize = (tree) => (rect) => pentUtils.rangeNum(1, 0).map(
     (sizeInd) => handlePlacements(sizeInd, tree, rect)
 ).reduce((answer, board) => answer + board, "");
 

@@ -9,9 +9,7 @@
  * Given a pentomino tree, extract pentomino figure numbers and assign
  * a corresponding symbol to each
  */
-var require;
-var exports;
-const pentUtils = require("./pent_utils");
+const pentUtils = require('./pent_utils');
 
 /**
  * For all nodes in a tree, add a symbol property if needed
@@ -23,7 +21,7 @@ const generateTreeWithSymbols = (nTree) => addSymbolProp(
     symbolEntries(nTree)
 )(nTree);
 
-const PENTOMINO = "pentomino";
+const PENTOMINO = 'pentomino';
 Object.freeze(PENTOMINO);
 /**
  * For a node in the tree, add a symbol property if needed.
@@ -33,12 +31,12 @@ Object.freeze(PENTOMINO);
  * @return {Object} updated node
  */
 const addSymbolProp = (tbl) => (nTree) => nTree.map((node) => (
-    node.hasOwnProperty(PENTOMINO)
-    ? pentUtils.putInNewProp(node, "symbol", tbl[node.pentomino])
-    : node
+    node.hasOwnProperty(PENTOMINO) ?
+    pentUtils.putInNewProp(node, 'symbol', tbl[node.pentomino]) :
+    node
 ));
 
-const PENT_SYMBOLS = "FPXNVTYWZLUI";
+const PENT_SYMBOLS = 'FPXNVTYWZLUI';
 Object.freeze(PENT_SYMBOLS);
 /**
  * Construct a table of symbols indexed by pentomino number

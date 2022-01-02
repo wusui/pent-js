@@ -2,11 +2,8 @@
  * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
-
-var exports;
-var require;
-const tPoints = require("./tree_points");
-const treeNode = require("./tree_nodes");
+const tPoints = require('./tree_points');
+const treeNode = require('./tree_nodes');
 
 /**
  * Apply removeSamePoint test to every entry in tree.
@@ -27,13 +24,13 @@ const removeDupPoints = (tree) => tree.map(removeSamePoint(tree));
  * @return {node} Tnode where offspring that are also ancestors are removed
  */
 const removeSamePoint = (tree) => (tnode) => (
-    tnode.hasOwnProperty("offspring")
-    ? {
-        offspring: removeSamePointOffspring(tree)(tnode),
-        parent: tnode.parent,
-        point: tnode.point
-    }
-    : tnode
+    tnode.hasOwnProperty('offspring') ?
+    {
+      offspring: removeSamePointOffspring(tree)(tnode),
+      parent: tnode.parent,
+      point: tnode.point
+    } :
+    tnode
 );
 
 /**
@@ -41,13 +38,13 @@ const removeSamePoint = (tree) => (tnode) => (
  *
  * @param {Array} tree List of nodes in the tree
  * @param {node} tnode Node whose offspring values are being tested
- * @returns {Array} offspring field modified with duplicates removed
+ * @return {Array} offspring field modified with duplicates removed
  */
 const removeSamePointOffspring = (tree) => (tnode) => ({
-    index: tnode.offspring.index,
-    points: (checkDupPoint(
-        treeNode.getParents(tree)(tnode.offspring.index)
-    )(tnode.offspring.points))
+  index: tnode.offspring.index,
+  points: (checkDupPoint(
+      treeNode.getParents(tree)(tnode.offspring.index)
+  )(tnode.offspring.points))
 });
 
 /**

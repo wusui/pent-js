@@ -9,7 +9,6 @@
  * Catch-all module for functions that are used by the rest of the code
  * in MOPFPPP.
  */
-var exports;
 
 /**
  * zip two Arrays. zip([a,b,c], [d,e,f]) becomes [[a,d], [b,e], [c,f]].
@@ -34,11 +33,11 @@ const evalNumb = (point) => evalNumb2(
 
 /**
  * Generate a range of Integers with the length (size) and starting point
- * specfied
+ * specified
  *
  * @param {Integer} size Length of range generated
  * @param {Integer} start Lowest number in range
- * @returns {Array} Array of numbers from start to start + size - 1;
+ * @return {Array} Array of numbers from start to start + size - 1;
  */
 const rangeNum = (size, start) => [...new Array(size).keys()].map(
     (keyval) => keyval + start
@@ -58,7 +57,7 @@ Object.freeze(VERTICAL_OFFSETS);
  * @return {Integer} uniqe id for this point
  */
 const evalNumb2 = (sumv) => (rowv) => (
-    HORIZONTAL_OFFSETS[sumv] + rowv - VERTICAL_OFFSETS[sumv]
+  HORIZONTAL_OFFSETS[sumv] + rowv - VERTICAL_OFFSETS[sumv]
 );
 
 /**

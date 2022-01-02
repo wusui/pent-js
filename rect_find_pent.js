@@ -7,10 +7,8 @@
  * Find all possible pentominos to fit in the first available spot in
  * a configuration of pentominos in a rectangle
  */
-var require;
-var exports;
-const rectNextStart = require("./rect_next_start");
-const pentUtils = require("./pent_utils");
+const rectNextStart = require('./rect_next_start');
+const pentUtils = require('./pent_utils');
 
 /**
  * Get a list of pentominos (based on leaf node number) that can fill
@@ -28,8 +26,8 @@ const pentUtils = require("./pent_utils");
 const getPlacements = (tree) => (rect) => markBadNodesWrap(
     rectNextStart.findNextStartSq(rect)
 )(tree)(rect).map((bnode0, indx) => [bnode0, indx]).filter(
-    (bnode1) => !bnode1[0].hasOwnProperty("bad")
-).filter((bnode2) => bnode2[0].hasOwnProperty("symbol")).map(
+    (bnode1) => !bnode1[0].hasOwnProperty('bad')
+).filter((bnode2) => bnode2[0].hasOwnProperty('symbol')).map(
     (bnode3) => bnode3[1]
 ).filter((bnode4) => notInRect(tree[bnode4].symbol, rect));
 
@@ -60,9 +58,9 @@ const markBadNodesWrap = (origin) => (tree) => (rect) => repeatCall(
  * @return {Array} new tree image with bad node marked
  */
 const markBadNodes = (origin) => (tree) => (rect) => tree.map(
-    (squareloc) => calcSqLoc(origin, squareloc, rect)
-    ? squareloc
-    : pentUtils.putInNewProp(squareloc, "bad", true)
+    (squareloc) => calcSqLoc(origin, squareloc, rect) ?
+    squareloc :
+    pentUtils.putInNewProp(squareloc, 'bad', true)
 );
 
 /**
@@ -89,9 +87,9 @@ const calcSqLoc = (origin, node, rect) => evalSq(
  * @return {Array} Copy of tree with bad nodes marked
  */
 const repeatCall = (tree, count) => (
-    count === 0
-    ? wrapBadNodeCheck(tree)
-    : repeatCall(wrapBadNodeCheck(tree), count - 1)
+    count === 0 ?
+    wrapBadNodeCheck(tree) :
+    repeatCall(wrapBadNodeCheck(tree), count - 1)
 );
 
 /**
@@ -99,11 +97,12 @@ const repeatCall = (tree, count) => (
  *
  * @param {Array} tree tree
  * @param {Integer} count count
+ * @return {Array} bad nodes
  */
 const wrapBadNodeCheck = (tree) => tree.map(
-    (squareloc) => squareloc.parent === undefined
-    ? squareloc
-    : badNodeCheck(tree, squareloc)
+    (squareloc) => squareloc.parent === undefined ?
+    squareloc :
+    badNodeCheck(tree, squareloc)
 );
 
 /**
@@ -114,9 +113,9 @@ const wrapBadNodeCheck = (tree) => tree.map(
  * @return {Array} node node entry with bad property set if set in parent
  */
 const badNodeCheck = (tree, node) => (
-    tree[node.parent].hasOwnProperty("bad")
-    ? pentUtils.putInNewProp(node, "bad", true)
-    : node
+    tree[node.parent].hasOwnProperty('bad') ?
+    pentUtils.putInNewProp(node, 'bad', true) :
+    node
 );
 
 /**
@@ -140,13 +139,13 @@ const notInRect = (symbol, rect) => rect.flat(1).find(
  * @return {boolean} true if square is valid and empty
  */
 const evalSq = (rnum, cnum, rect) => (
-    rnum < 0
-    ? false
-    : (rnum >= rect.length)
-    ? false
-    : cnum >= rect[0].length
-    ? false
-    : rect[rnum][cnum] === "."
+    rnum < 0 ?
+    false :
+    (rnum >= rect.length) ?
+    false :
+    cnum >= rect[0].length ?
+    false :
+    rect[rnum][cnum] === '.'
 );
 
 exports.getPlacements = getPlacements;

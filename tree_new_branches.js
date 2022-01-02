@@ -3,15 +3,13 @@
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
-var exports;
-var require;
 /**
  * Tree New Branches Module
  *
  * Handle the linking of branches and parent properties when a new Array
  * of nodes is added to the bottom of the pentomino tree.
  */
-const pentUtils = require("./pent_utils");
+const pentUtils = require('./pent_utils');
 
 /**
  * Attach the links between the original tree and the new nodes so that
@@ -33,12 +31,12 @@ const assignBranchLinks = (bottom) => (topn) => fixNewBranchesWrap(
  * @return {Array} tree with links possibly containing newbranches property
  */
 const setNewBranches = (addon) => (tree) => tree.map(
-    (node) => node.hasOwnProperty("offspring")
-    ? addNewBranches(node, addon)
-    : ({
-        "branches": node.branches,
-        "parent": node.parent,
-        "point": node.point
+    (node) => node.hasOwnProperty('offspring') ?
+    addNewBranches(node, addon) :
+    ({
+      'branches': node.branches,
+      'parent': node.parent,
+      'point': node.point
     })
 );
 
@@ -55,7 +53,7 @@ const setNewBranches = (addon) => (tree) => tree.map(
 
 const addNewBranches = (tree, addon) => pentUtils.putInNewProp(
     tree,
-    "newbranches",
+    'newbranches',
     addon.map((node) => node.parent)
 );
 
@@ -64,7 +62,7 @@ const addNewBranches = (tree, addon) => pentUtils.putInNewProp(
  * the size of the current tree.
  *
  * @param {Array} tree Tree
- * @return (Array} tree with branch values set
+ * @return {Array} tree with branch values set
  */
 const fixNewBranchesWrap = (tree) => fixNewBranches(tree.length)(tree);
 
@@ -88,9 +86,9 @@ const fixNewBranches = (size) => (tree) => tree.map(
  * @return {Array} updated node
  */
 const findABranch = (size) => (node) => (
-    node.hasOwnProperty("offspring")
-    ? fixABranch(size)(node)
-    : node
+    node.hasOwnProperty('offspring') ?
+    fixABranch(size)(node) :
+    node
 );
 
 /**
@@ -101,9 +99,9 @@ const findABranch = (size) => (node) => (
  * @return {Array} updated node
  */
 const fixABranch = (size) => (node) => ({
-    "branches": pullOutNegativeBranches(findBranchWrap(size)(node)),
-    "parent": node.parent,
-    "point": node.point
+  'branches': pullOutNegativeBranches(findBranchWrap(size)(node)),
+  'parent': node.parent,
+  'point': node.point
 });
 
 /**
@@ -150,9 +148,9 @@ const findBranches = (size) => (node) => (binfo) => binfo.map(
  * @return {Array} links to the new nodes in the concatenated list
  */
 const setBranchValues = (size) => (node) => (bnode, indx) => (
-    bnode === node
-    ? indx + size
-    : -1
+    bnode === node ?
+    indx + size :
+    -1
 );
 
 exports.assignBranchLinks = assignBranchLinks;

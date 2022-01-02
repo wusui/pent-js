@@ -2,14 +2,12 @@
  * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
-var require;
-var exports;
 
 /**
  * Add the next tier onto the tree (The tree contains n tile figures after
  * the nth tile is added)
  */
-const pentUtils = require("./pent_utils");
+const pentUtils = require('./pent_utils');
 
 /**
  * Generate the next tier on  the tree
@@ -39,7 +37,7 @@ const getNewLeafInfo = (tree) => [tree.map(
  * @return {Array} tree nodes (with point and parent properties)
  */
 const newNextTierNodes = (info) => info.map((tier) => (
-    {parent: tier[1], point: tier[0]}
+  {parent: tier[1], point: tier[0]}
 ));
 
 /**
@@ -87,10 +85,10 @@ const getFlatParentLinks = (linkInfo) => linkInfo.map(
  * Find all nodes that have the offspring property.
  *
  * @param {Array} tree Existing tree
- * @returns {Array} list of tree nodes with offspring property
+ * @return {Array} list of tree nodes with offspring property
  */
 const findNewNodes = (tree) => tree.filter(
-    (node) => node.hasOwnProperty("offspring")
+    (node) => node.hasOwnProperty('offspring')
 );
 
 exports.genNextTier = genNextTier;

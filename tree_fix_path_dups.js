@@ -2,9 +2,7 @@
  * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
-var require;
-var exports;
-const pUtils = require("./pent_utils");
+const pUtils = require('./pent_utils');
 
 /**
  * Curry the index of the first duplicate entry found and call
@@ -24,11 +22,12 @@ const rmDupPaths = (nodeList) => curryFirstDupAndRepeat(
  *
  * @param {Array} dupInd Index of duplicate node
  * @param {Array} nodeList List of new nodes
+ * @return {Integer} Index of duplicate entry
  */
 const curryFirstDupAndRepeat = (dupInd) => (nodeList) => (
-    dupInd < 0
-    ? nodeList
-    : exports.rmDupPaths(removeDups(addDupLabel(dupInd)(nodeList)))
+    dupInd < 0 ?
+    nodeList :
+    exports.rmDupPaths(removeDups(addDupLabel(dupInd)(nodeList)))
 );
 
 /**
@@ -53,21 +52,21 @@ const firstDupFound = (nodeList) => alignSetFindDups(
  */
 const alignSetFindDups = (figs) => pUtils.zip(figs, Array.from(new Set(figs)));
 
-const IAMADUP = "iamadup";
+const IAMADUP = 'iamadup';
 Object.freeze(IAMADUP);
 /**
  * Add iamadup property to the first entry in the new node list that
  *
- * @param Integer dup_node node index that is being searched for
- * @param Array nodeList List of nodes to be searched
- * @return List of nodes with iamdup property added to nodes with duplicate
- *         values of figure.
+ * @param {Integer} dupNode node index that is being searched for
+ * @param {Array} nodeList List of nodes to be searched
+ * @return {Array} List of nodes with iamdup property added to nodes with
+ *                 duplicate values of figure.
  */
 const addDupLabel = (dupNode) => (nodeList) => nodeList.map(
     (node, indx) => (
-        indx === dupNode
-        ? pUtils.putInNewProp(node, IAMADUP, 0)
-        : node
+        indx === dupNode ?
+        pUtils.putInNewProp(node, IAMADUP, 0) :
+        node
     )
 );
 

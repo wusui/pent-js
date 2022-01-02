@@ -9,7 +9,7 @@
  * A point is an object that represents a location on a grid.  It consists of
  * row, an integer x-axis coordinate, and col, an integer y-axis coordinate.
  */
-var exports;
+
 /**
  * Compare two points.  Points are considered the same if their corresponding
  * row values and col values are equal.
@@ -19,7 +19,7 @@ var exports;
  * @return {Boolean} true if x and y are the same, false otherwise
  */
 const compPoints = (point1) => (point2) => (
-    point1.row === point2.row && point1.col === point2.col
+  point1.row === point2.row && point1.col === point2.col
 );
 
 /**
@@ -38,10 +38,10 @@ const getNextPoints = (point) => getNeighbors(point).filter(isValidLocation);
  * @return {Array} List of points next to point.
  */
 const getNeighbors = (point) => [
-    {col: point.col + 1, row: point.row},
-    {col: point.col - 1, row: point.row},
-    {col: point.col, row: point.row + 1},
-    {col: point.col, row: point.row - 1}
+  {col: point.col + 1, row: point.row},
+  {col: point.col - 1, row: point.row},
+  {col: point.col, row: point.row + 1},
+  {col: point.col, row: point.row - 1}
 ];
 
 /**
@@ -54,7 +54,7 @@ const getNeighbors = (point) => [
  * @return {Boolean} true if point is valid, false if not
  */
 const isValidLocation = (point) => point.col >= 0 && (
-    point.row >= 0 || point.col > 0
+  point.row >= 0 || point.col > 0
 );
 
 exports.compPoints = compPoints;

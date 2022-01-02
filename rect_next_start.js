@@ -6,7 +6,6 @@
 /**
  * Find the next starting square when filling a rectangle with pentominos
  */
-var exports;
 
 /**
  * Scan for next starting square
@@ -23,11 +22,11 @@ const findNextStartSq = (rect) => findBestRowWrap(findFirstEmptyPerRow(rect));
  * @return {Array} list of first empty spot in each row (100 if none).
  */
 const findFirstEmptyPerRow = (rect) => rect.map((row) => row.findIndex(
-    (col) => col === "."
+    (col) => col === '.'
 )).map((zpoint) => (
-    zpoint < 0
-    ? 100
-    : zpoint
+    zpoint < 0 ?
+    100 :
+    zpoint
 ));
 
 /**
@@ -45,7 +44,7 @@ const findBestRowWrap = (rowData) => findRowWithBestColValue(
  * Scan rows for first row with best column value
  *
  * @param {Array} rowData First open square in each row
- * @param {Integer} Lowest column value found
+ * @param {Integer} rowCol Lowest column value found
  * @return {Array} [Row, Column] coordinates of first empty square
  */
 const findRowWithBestColValue = (rowData, rowCol) => [rowData.findIndex(

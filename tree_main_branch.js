@@ -3,22 +3,19 @@
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
-var require;
-var exports;
 /**
  * Main Tree Module
  *
  * Generate the tree used to scan for pentominos
  */
-const tPoints = require("./tree_points");
-const treeNode = require("./tree_nodes");
-const tFixDupPts = require("./tree_fix_pt_dups");
-const tTreeMakeTier = require("./tree_make_tier");
-const tTreeFigures = require("./tree_figures");
-const tFixPathDups = require("./tree_fix_path_dups");
-const tNewBranches = require("./tree_new_branches");
-const tPentominos = require("./tree_pentominos");
-const tGenSymbols = require("./tree_gen_symbols");
+const treeNode = require('./tree_nodes');
+const tFixDupPts = require('./tree_fix_pt_dups');
+const tTreeMakeTier = require('./tree_make_tier');
+const tTreeFigures = require('./tree_figures');
+const tFixPathDups = require('./tree_fix_path_dups');
+const tNewBranches = require('./tree_new_branches');
+const tPentominos = require('./tree_pentominos');
+const tGenSymbols = require('./tree_gen_symbols');
 
 /**
  * Get complete tree to be used by the rectangle searching code.
@@ -60,9 +57,9 @@ const pentominoTree = (rNode) => tPentominos.setPentominos(
  * @return {Array} List of nodes forming the tree
  */
 const getFullTree = (levels, rNode) => (
-    levels === 0
-    ? rNode
-    : getFullTree(levels - 1, setTreeLev(rNode))
+    levels === 0 ?
+    rNode :
+    getFullTree(levels - 1, setTreeLev(rNode))
 );
 
 /**
@@ -130,9 +127,9 @@ const setBranchLinks = (pTree) => (gNodes) => tNewBranches.assignBranchLinks(
  * @return {Array} Modified tree
  */
 const simplePentTree = (xTree) => xTree.map((iTree) => (
-    iTree.hasOwnProperty("branches")
-    ? {branches: iTree.branches, parent: iTree.parent, point: iTree.point}
-    : {parent: iTree.parent, point: iTree.point, symbol: iTree.symbol}
+    iTree.hasOwnProperty('branches') ?
+    {branches: iTree.branches, parent: iTree.parent, point: iTree.point} :
+    {parent: iTree.parent, point: iTree.point, symbol: iTree.symbol}
 ));
 
 exports.treeData = treeData;

@@ -8,7 +8,6 @@
  * by rotating along an axis where the rectangle size is odd, then make sure
  * the W-pentomino is on one side only.
  */
-var exports;
 
 /**
  * Return true if there is symmetry along one axis and the W-pentomino is
@@ -37,9 +36,9 @@ const doSymChecks = (board) => () => findCenter(board) && wChecker(board);
  * @return {Array} Board layout with x axis and y axis reversed, if needed
  */
 const alignBoard = (board) => (
-    board[0].length % 2 === 1
-    ? flipBoard(board)
-    : board
+    board[0].length % 2 === 1 ?
+    flipBoard(board) :
+    board
 );
 
 /**
@@ -69,9 +68,9 @@ const wrapPrevLine = (indx, prev) => prev[indx] || [];
  * @return {Boolean} Symmetry condition exists.
  */
 const findCenter = (board) => (
-    board.length % 2 === 0
-    ? false
-    : checkCenter(board, middleRowNumb(board))
+    board.length % 2 === 0 ?
+    false :
+    checkCenter(board, middleRowNumb(board))
 );
 
 /**
@@ -90,7 +89,7 @@ const middleRowNumb = (board) => (board.length - 1) / 2;
  * @return {Boolean} True if the middle of the X-pentomino is in this row
  */
 const checkCenter = (board, row) => board[row].filter(
-    (xchar) => xchar === "X"
+    (xchar) => xchar === 'X'
 ).length === 3;
 
 /**
@@ -104,7 +103,7 @@ const wChecker = (board) => board.slice(
     0,
     middleRowNumb(board)
 ).flat(1).filter(
-    (wchar) => wchar === "W"
+    (wchar) => wchar === 'W'
 ).length >= 2;
 
 exports.checkSym = checkSym;

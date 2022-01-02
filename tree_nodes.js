@@ -2,8 +2,6 @@
  * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
-var require;
-var exports;
 
 /**
  * Node Module
@@ -15,8 +13,8 @@ var exports;
  * immediate ancestor of this node on the tree) and branches (descendant
  * nodes on the tree).
  */
-const tPoints = require("./tree_points");
-const pentUtils = require("./pent_utils");
+const tPoints = require('./tree_points');
+const pentUtils = require('./pent_utils');
 
 /**
  * Given a node (indicated by both the node and an index into the tree
@@ -30,11 +28,11 @@ const pentUtils = require("./pent_utils");
  *         has no branches
  */
 const addBranches = (tree) => (tnode, index) => (
-    tnode.hasOwnProperty("branches")
-    ? tnode
-    : pentUtils.putInNewProp(tnode, "offspring", {
-        "index": index,
-        "points": checkAllPts(getParents(tree)(index))
+    tnode.hasOwnProperty('branches') ?
+    tnode :
+    pentUtils.putInNewProp(tnode, 'offspring', {
+      'index': index,
+      'points': checkAllPts(getParents(tree)(index))
     })
 );
 
@@ -59,9 +57,9 @@ const getParents = (tree) => (indx) => findAllAncestors(tree)(
  *         this node.
  */
 const findAllAncestors = (tree) => (tnode) => (
-    tnode.parent !== undefined
-    ? [tnode, findAllAncestors(tree)(tree[tnode.parent])]
-    : [tnode]
+    tnode.parent !== undefined ?
+    [tnode, findAllAncestors(tree)(tree[tnode.parent])] :
+    [tnode]
 );
 
 /**

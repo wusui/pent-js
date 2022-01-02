@@ -8,9 +8,7 @@
  *
  * Find all starting board configurations where X pentomino is already placed.
  */
-var require;
-var exports;
-const pentUtils = require("./pent_utils");
+const pentUtils = require('./pent_utils');
 
 /**
  * Generate rectangles for all possible sizes.
@@ -41,7 +39,7 @@ Object.freeze(SIZE_OF_ALL_PENTS);
  */
 const addOneRect = (size) => setXOneRect(
     new Array(size).fill(size).map(
-        (sizeparm) => new Array(SIZE_OF_ALL_PENTS / sizeparm).fill(".")
+        (sizeparm) => new Array(SIZE_OF_ALL_PENTS / sizeparm).fill('.')
     )
 );
 
@@ -57,7 +55,7 @@ const setXOneRect = (rect) => setXcenters(rect).map(
         rect,
         indvRect
     )
-).filter((drect, indx) => indx !== 0 || drect === "");
+).filter((drect, indx) => indx !== 0 || drect === '');
 
 /**
  * @param {Array} rect Rectangle
@@ -79,10 +77,10 @@ const rectSetX = (rect, center) => rect.map((indvRect, indx) => indvRect.map(
  */
 const setXvalInRect = (indx, indx2, center, emptyInd) => (
     ((Math.abs(indx - center[0]) <= 1 && indx2 === center[1]) || (
-        (indx === center[0]) && (Math.abs(indx2 - center[1]) <= 1)
-    ))
-    ? "X"
-    : emptyInd
+      (indx === center[0]) && (Math.abs(indx2 - center[1]) <= 1)
+    )) ?
+    'X' :
+    emptyInd
 );
 
 /**
@@ -123,6 +121,7 @@ const loopXforRow = (rowDim, colDim) => rowDim.map(
  * @param {Integer} rowDim Row dimension
  * @param {Integer} colDim Col dimension
  * @param {Array} list of X-pentomino center points
+ * @return {Array} List possible column value points
  */
 const loopXforCol = (rowDim) => (colDim) => colDim.map(
     (localIndex) => [localIndex, rowDim]

@@ -7,7 +7,6 @@
  * Make sure that the sizes of all holes on the board is a multiple of five
  * tiles (pentominoes can't fit if they are not).
  */
-var exports;
 
 /**
  * Test a board to make sure that it is possible to fit pentominoes into
@@ -53,7 +52,7 @@ const getHoleNumbers = (board) => board.map(
  */
 const getBlanksWrap = (rowVal, colIndx) => Object.values(rowVal).map(
     (objVal, indx) => getBlanks(objVal, colIndx, indx)
-).filter((blankTester) => (typeof blankTester[1]) === "number");
+).filter((blankTester) => (typeof blankTester[1]) === 'number');
 
 /**
  * Given a square, return the coordinates if the square is blank.
@@ -65,9 +64,7 @@ const getBlanksWrap = (rowVal, colIndx) => Object.values(rowVal).map(
  * @return {Array} Row/Column coordinates if blank.
  */
 const getBlanks = (sqVal, rowIndex, colIndex) => (
-    (sqVal === ".")
-    ? [rowIndex, colIndex]
-    : sqVal
+    (sqVal === '.') ? [rowIndex, colIndex] : sqVal
 );
 
 /**
@@ -106,21 +103,21 @@ const rowOpWrapper = (markRh) => markRh.reduce(addPointToRow, []);
  * Add point to row data. Start new list if front of row, otherwise
  * merge into last row.
  *
- * @param accum {Array} Row data
- * @param b {Array} markRowHeads data for this point
+ * @param {Array} accum Row data
+ * @param {Array} markRh markRowHeads data for this point
  * @return {Array} updated row data
  */
 const addPointToRow = (accum, markRh) => (
-    markRh[1]
-    ? mergePtIntoExistingRow(accum, markRh)
-    : accum.concat([[markRh[0]]])
+    markRh[1] ?
+    mergePtIntoExistingRow(accum, markRh) :
+    accum.concat([[markRh[0]]])
 );
 
 /**
  * Merge a point into the last existing row
  *
- * @param rowData {Array} Row data
- * @param markRh {Array} markRowHeads data for this point
+ * @param {Array} rowData Row data
+ * @param {Array} markRh markRowHeads data for this point
  * @return {Array} updated row data
  */
 const mergePtIntoExistingRow = (rowData, markRh) => rowData.slice(
@@ -172,7 +169,7 @@ const rowComboWrap = (blankPoints, iCol, iRow) => blankPoints.map(
  *
  * @param {Array} row1 Row 1
  * @param {Array} row2 Row 2
- * @return true if contiguous, false otherwise
+ * @return {Boolean} true if contiguous, false otherwise
  */
 const rowComboCheck = (row1, row2) => row1.map((ival) => ival + 100).filter(
     (rowValue) => row2.includes(rowValue)
@@ -218,9 +215,9 @@ const groupRowInfo = (rowInfo) => rowInfo.reduce(
  * @return {Array} rowData containing all the points in a hole
  */
 const recurseThruRows = (rowData, rowPairs) => (
-    rowPairs.length === 0
-    ? rowData
-    : recurseThruRows(rowMerge(rowData, rowPairs[0]), rowPairs.slice(1))
+    rowPairs.length === 0 ?
+    rowData :
+    recurseThruRows(rowMerge(rowData, rowPairs[0]), rowPairs.slice(1))
 );
 
 /**
@@ -233,9 +230,9 @@ const recurseThruRows = (rowData, rowPairs) => (
  */
 const rowMerge = (rowData, rowPairs) => rowData.map(
     (locData, indx) => (
-        indx === rowPairs[1]
-        ? [...(new Set(locData.concat(rowData[rowPairs[0]])))]
-        : locData
+        indx === rowPairs[1] ?
+        [...(new Set(locData.concat(rowData[rowPairs[0]])))] :
+        locData
     )
 );
 
@@ -250,9 +247,9 @@ const rowMerge = (rowData, rowPairs) => rowData.map(
  *         by flg
  */
 const rowMergeSwitch = (rowSegLists, rowSegComb, flg) => (
-    flg
-    ? passOneHoles(rowSegLists, rowSegComb)
-    : rowSegLists
+    flg ?
+    passOneHoles(rowSegLists, rowSegComb) :
+    rowSegLists
 );
 
 /**
@@ -265,9 +262,9 @@ const rowMergeSwitch = (rowSegLists, rowSegComb, flg) => (
  */
 const passOneHoles = (rowSegLists, rowSegComb) => rowSegLists.filter(
     (rowSeg, indx) => (
-        rowSeg === "A"
-        ? "A"
-        : detectValidGroups(rowSegComb)[indx]
+        rowSeg === 'A' ?
+        'A' :
+        detectValidGroups(rowSegComb)[indx]
     )
 );
 

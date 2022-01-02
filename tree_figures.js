@@ -3,8 +3,6 @@
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
 
-var require;
-var exports;
 /**
  * Figure Module
  *
@@ -17,7 +15,7 @@ var exports;
  * unique bit location in an integer is returned.  The sum of all these
  * integers then results in a unique id for that set of points.
  */
-const pentUtils = require("./pent_utils");
+const pentUtils = require('./pent_utils');
 
 /**
  * Get figure properties for new nodes.
@@ -37,7 +35,7 @@ const getFigs = (tnew) => (tree) => tnew.map(setFigValue(tree));
  */
 const setFigValue = (tree) => (tnode) => pentUtils.putInNewProp(
     tnode,
-    "figure",
+    'figure',
     getFigValue(tree)(tnode)
 );
 
@@ -50,10 +48,10 @@ const setFigValue = (tree) => (tnode) => pentUtils.putInNewProp(
  * @return {Integer} unique Id for this figure
  */
 const getFigValue = (tree) => (tnode) => (
-    tnode.parent === undefined
-    ? 0
-    : Math.pow(2, pentUtils.evalNumb(tnode.point)) + (
-        getFigValue(tree)(tree[tnode.parent])
+    tnode.parent === undefined ?
+    0 :
+    Math.pow(2, pentUtils.evalNumb(tnode.point)) + (
+      getFigValue(tree)(tree[tnode.parent])
     )
 );
 

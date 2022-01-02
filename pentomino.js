@@ -8,16 +8,14 @@
  *
  * Find all solutions for filling rectangles with pentominos.
  */
-var require;
-var exports;
-const tTreeMain = require("./tree_main_branch");
-const pentOutput = require("./pent_output");
-const rectGetX = require("./rect_getXlocations");
-const rectHoles = require("./rect_holes");
-const rectSymmetry = require("./rect_symmetry");
-const rectFindPent = require("./rect_find_pent");
-const rectPlacePent = require("./rect_place_pent");
-const pentUtils = require("./pent_utils");
+const tTreeMain = require('./tree_main_branch');
+const pentOutput = require('./pent_output');
+const rectGetX = require('./rect_getXlocations');
+const rectHoles = require('./rect_holes');
+const rectSymmetry = require('./rect_symmetry');
+const rectFindPent = require('./rect_find_pent');
+const rectPlacePent = require('./rect_place_pent');
+const pentUtils = require('./pent_utils');
 
 /**
  * Solve all rectangular pentomino tilings.
@@ -37,9 +35,9 @@ const pentominoRectangles = () => solveSize(tTreeMain.treeData())(
  * @param {Array} rect Pentomino solution rectangle
  * @return {String} pentomino Solutions
  */
-const solveSize = (tree) => (rect) => pentUtils.rangeNum(4, 0).map(
+const solveSize = (tree) => (rect) => pentUtils.rangeNum(1, 0).map(
     (sizeInd) => handlePlacements(sizeInd, tree, rect)
-).reduce((answer, board) => answer + board, "");
+).reduce((answer, board) => answer + board, '');
 
 /**
  * Loop through possible X-pentomino locations for this rectangle
@@ -51,7 +49,7 @@ const solveSize = (tree) => (rect) => pentUtils.rangeNum(4, 0).map(
  */
 const handlePlacements = (size, tree, rect) => rect[size].map(
     (indvrect) => solver(tree, indvrect)
-).reduce((answer, board) => answer + board, "");
+).reduce((answer, board) => answer + board, '');
 
 /**
  * Find all solutions for a given rectangle configuration
@@ -76,19 +74,15 @@ const handlePlacements = (size, tree, rect) => rect[size].map(
  * @return {Array} List of solutions for the pentomino solver
  */
 const solver = (tree, rect) => (
-    !rectHoles.areHolesValidSizes(rect)
-    ? ""
-    : rectSymmetry.checkSym(rect)
-    ? ""
-    : rect.flat(1).find((rectsq) => rectsq === ".") === undefined
-    ? pentOutput.pentToString(rect)
-    : rectFindPent.getPlacements(tree)(rect).reduce(
+    !rectHoles.areHolesValidSizes(rect) ? '' :
+    rectSymmetry.checkSym(rect) ? '' :
+    rect.flat(1).find((rectsq) => rectsq === '.') === undefined ?
+    pentOutput.pentToString(rect) :
+    rectFindPent.getPlacements(tree)(rect).reduce(
         (answer, board) => answer + (solver(tree, rectPlacePent.putPentInRect(
-            tree,
-            rect,
-            board
+            tree, rect, board
         ))),
-        ""
+        ''
     )
 );
 

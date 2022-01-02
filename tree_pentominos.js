@@ -2,14 +2,13 @@
  * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
-var require;
-var exports;
+
 /**
  * Tree pentomino module
  *
  * Add pentomino values to the leaf nodes of the tree
  */
-const pentUtils = require("./pent_utils");
+const pentUtils = require('./pent_utils');
 
 /**
  * Add pentomino property to each node in the tree that has a figure value.
@@ -18,11 +17,11 @@ const pentUtils = require("./pent_utils");
  * @return {Array} Tree with pentomino value set in appropriate nodes
  */
 const setPentominos = (pTree) => pTree.map((xNode) => (
-    xNode.hasOwnProperty("figure")
-    ? pentUtils.putInNewProp(xNode, "pentomino", Math.min(
+    xNode.hasOwnProperty('figure') ?
+    pentUtils.putInNewProp(xNode, 'pentomino', Math.min(
         ...getPentNumbers(xNode).flat(10)
-    ))
-    : xNode
+    )) :
+    xNode
 ));
 
 /**
@@ -45,35 +44,34 @@ const getPentNumbers = (xNode) => wrapAllOrientations(0, getPts(xNode));
  * @return {Array} nested Arrays of all pentomino orientations for this node
  */
 const wrapAllOrientations = (oNumb, xPoints) => (
-    oNumb > 7
-    ? Math.pow(2, 23)
-    : [
-        expandAnOrientation(oNumb, xPoints),
-        wrapAllOrientations(oNumb + 1, xPoints)
+    oNumb > 7 ? Math.pow(2, 23) :
+    [
+      expandAnOrientation(oNumb, xPoints),
+      wrapAllOrientations(oNumb + 1, xPoints)
     ]
 );
 
 /**
  * Wrapper to do diagonal flipping if needed.
  *
- * @param {Integer} n representation of one of the eight orientations
- * @param {Array} x list of points
+ * @param {Integer} oNumb representation of one of the eight orientations
+ * @param {Array} xPoints list of points
  * @return {Integer} pentomino value corresponding to x rotated using the
  *    the nth rotation method.
  */
 const expandAnOrientation = (oNumb, xPoints) => wrapFurtherRotations(
     oNumb % 4
 )(
-    oNumb >= 4
-    ? flipDiagonally(xPoints)
-    : xPoints
+    oNumb >= 4 ?
+    flipDiagonally(xPoints) :
+    xPoints
 );
 
 /**
  * Wrapper to do orientations beyond diagonal flipping if needed.
  *
- * @param {Integer} n representation of one of the eight orientations
- * @param {Array} x list of points
+ * @param {Integer} oNumb representation of one of the eight orientations
+ * @param {Array} xPoints list of points
  * @return {Integer} pentomino value corresponding to x rotated using the
  *    the nth rotation method.
  */
@@ -94,25 +92,27 @@ const flipDiagonally = (xaxis) => xaxis.map(
 /**
  * Flip figure vertically
  *
- * @param {Integer} n orientation representation
+ * @param {Integer} oNumb orientation representation
+ * @param {Array} xPoints list of points
  * @return {Array} reoriented list of points
  */
 const flipColumns = (oNumb, xPoints) => (
-    oNumb > 1
-    ? xPoints.map((point) => ({col: 0 - point.col, row: point.row}))
-    : xPoints
+    oNumb > 1 ?
+    xPoints.map((point) => ({col: 0 - point.col, row: point.row})) :
+    xPoints
 );
 
 /**
  * Flip figure horizontally
  *
- * @param {Integer} n orientation representation
+ * @param {Integer} oNumb orientation representation
+ * @param {Array} xPoints list of points
  * @return {Array} reoriented list of points
  */
 const flipRows = (oNumb, xPoints) => (
-    oNumb % 2 === 0
-    ? xPoints.map((point) => ({col: point.col, row: 0 - point.row}))
-    : xPoints
+    oNumb % 2 === 0 ?
+    xPoints.map((point) => ({col: point.col, row: 0 - point.row})) :
+    xPoints
 );
 
 /**
@@ -212,7 +212,7 @@ const reduceToPentNumb = (pList) => pList.map(
  */
 const getPts = (xNode) => convNumsToPts(
     getRawNumbs(xNode)
-).concat({"col": 0, "row": 0});
+).concat({'col': 0, 'row': 0});
 
 /**
  * Extract the grid numbers of points from the point pair list
@@ -245,9 +245,9 @@ const getRawPtPairs = (xNode) => getRawPoints(
  *     figure (1 if it is, 0 if it is not).
  */
 const getRawLocations = (xFigN) => (
-    xFigN === 0
-    ? 0
-    : [xFigN % 2, getRawLocations(Math.floor(xFigN / 2))]
+    xFigN === 0 ?
+    0 :
+    [xFigN % 2, getRawLocations(Math.floor(xFigN / 2))]
 );
 
 /**
@@ -280,9 +280,9 @@ const convNumsToPts = (xPoints) => xPoints.map(
  * @return {Array} point (in row: col: form)
  */
 const convNumToPt = (rLoc) => (xPoint) => (
-    xPoint > (rLoc * rLoc + rLoc)
-    ? getFPoint(xPoint, rLoc + 1)
-    : getFPoint(xPoint, rLoc)
+    xPoint > (rLoc * rLoc + rLoc) ?
+    getFPoint(xPoint, rLoc + 1) :
+    getFPoint(xPoint, rLoc)
 );
 
 /**
@@ -303,7 +303,7 @@ const getFPoint = (xPoint, rLoc) => getFcol(xPoint - (rLoc * rLoc))(rLoc);
  * @return {Array} point object (in row: col: form)
  */
 const getFcol = (rowN) => (xPoint) => (
-    {"col": xPoint - Math.abs(rowN), "row": rowN}
+  {'col': xPoint - Math.abs(rowN), 'row': rowN}
 );
 
 exports.setPentominos = setPentominos;

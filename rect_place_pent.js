@@ -2,9 +2,7 @@
  * (c) 2021, 2022 Warren Usui MOPFPPP
  * This code is licensed under the MIT license (see LICENSE.txt for details)
  */
-var exports;
-var require;
-const rectNextStart = require("./rect_next_start");
+const rectNextStart = require('./rect_next_start');
 
 /**
  * Add a pentomino to the rectangle
@@ -37,9 +35,9 @@ const putPentInRect = (tree, rect, node) => regroupWrap(
  * @return {character} new value in square
  */
 const squareChkr = (accum, cList) => accum.map((xchar, indx) => (
-    xchar === "."
-    ? cList[indx]
-    : xchar
+    xchar === '.' ?
+    cList[indx] :
+    xchar
 ));
 
 /**
@@ -51,9 +49,9 @@ const squareChkr = (accum, cList) => accum.map((xchar, indx) => (
  * @return {Array} list of lines in new rect Array
  */
 const modRect = (rect, symbol, rpnt) => rect.map(
-    (xchar, indx) => (indx) === rpnt[0]
-    ? modLine(xchar, rpnt[1], symbol)
-    : xchar
+    (xchar, indx) => (indx) === rpnt[0] ?
+    modLine(xchar, rpnt[1], symbol) :
+    xchar
 );
 
 /**
@@ -67,9 +65,9 @@ const modRect = (rect, symbol, rpnt) => rect.map(
  */
 const modLine = (rline, column, symbol) => rline.map(
     (item, indx) => (
-        indx === column
-        ? symbol
-        : item
+        indx === column ?
+        symbol :
+        item
     )
 );
 
@@ -80,11 +78,11 @@ const modLine = (rline, column, symbol) => rline.map(
  *                       in the rectangle
  * @param {Array} tree tree
  * @param {Integer} node Index of leaf node in tree
- * @return [row, column] value of the location of this point
+ * @return {Array} [row, column] value of the location of this point
  */
 const constructPoint = (origin) => (tree, node) => [
-    tree[node].point.row + origin[0],
-    tree[node].point.col + origin[1]
+  tree[node].point.row + origin[0],
+  tree[node].point.col + origin[1]
 ];
 
 /**
@@ -93,11 +91,12 @@ const constructPoint = (origin) => (tree, node) => [
  * @param {Array} tree tree
  * @param {Integer} node Index in tree of leaf node of the pentomino for
  *                       which we are placing all points.
+ * @return {Array} nodes that we are adding
  */
 const getPnodes = (tree, node) => (
-    tree[node] === undefined
-    ? []
-    : [node, getPnodes(tree, tree[node].parent)]
+    tree[node] === undefined ?
+    [] :
+    [node, getPnodes(tree, tree[node].parent)]
 );
 
 /**
@@ -115,13 +114,13 @@ const regroupWrap = (pdata, nleng) => regroup(pdata, nleng).filter(
  * Reform rectangle form the list of square values
  *
  * @param {Array} pdata List of square values in the rectangle
- * @param {Integer} n Length of the rectangle
+ * @param {Integer} nleng Length of the rectangle
  * @return {Array} Rectangle reformed from list of square values
  */
 const regroup = (pdata, nleng) => (
-    pdata.length < nleng
-    ? [pdata]
-    : [pdata.slice(0, nleng), ...regroup(pdata.slice(nleng), nleng)]
+    pdata.length < nleng ?
+    [pdata] :
+    [pdata.slice(0, nleng), ...regroup(pdata.slice(nleng), nleng)]
 );
 
 exports.putPentInRect = putPentInRect;

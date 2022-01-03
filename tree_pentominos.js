@@ -8,6 +8,7 @@
  *
  * Add pentomino values to the leaf nodes of the tree
  */
+const constants = require('./constants');
 const pentUtils = require('./pent_utils');
 
 /**
@@ -17,8 +18,8 @@ const pentUtils = require('./pent_utils');
  * @return {Array} Tree with pentomino value set in appropriate nodes
  */
 const setPentominos = (pTree) => pTree.map((xNode) => (
-    xNode.hasOwnProperty('figure') ?
-    pentUtils.putInNewProp(xNode, 'pentomino', Math.min(
+    xNode.hasOwnProperty(constants.FIGURE) ?
+    pentUtils.putInNewProp(xNode, constants.PENTOMINO, Math.min(
         ...getPentNumbers(xNode).flat(10)
     )) :
     xNode
@@ -44,7 +45,7 @@ const getPentNumbers = (xNode) => wrapAllOrientations(0, getPts(xNode));
  * @return {Array} nested Arrays of all pentomino orientations for this node
  */
 const wrapAllOrientations = (oNumb, xPoints) => (
-    oNumb > 7 ? Math.pow(2, 23) :
+    oNumb > 7 ? Math.pow(2, 25) :
     [
       expandAnOrientation(oNumb, xPoints),
       wrapAllOrientations(oNumb + 1, xPoints)
@@ -60,9 +61,9 @@ const wrapAllOrientations = (oNumb, xPoints) => (
  *    the nth rotation method.
  */
 const expandAnOrientation = (oNumb, xPoints) => wrapFurtherRotations(
-    oNumb % 4
+    oNumb % constants.DEPTH_OF_PENTOMINO_IN_TREE
 )(
-    oNumb >= 4 ?
+    oNumb >= constants.DEPTH_OF_PENTOMINO_IN_TREE ?
     flipDiagonally(xPoints) :
     xPoints
 );

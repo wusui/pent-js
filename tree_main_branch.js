@@ -8,6 +8,7 @@
  *
  * Generate the tree used to scan for pentominos
  */
+const constants = require('./constants');
 const treeNode = require('./tree_nodes');
 const tFixDupPts = require('./tree_fix_pt_dups');
 const tTreeMakeTier = require('./tree_make_tier');
@@ -42,7 +43,7 @@ const generateTree = () => pentominoTree(
  * @return {Array} List of nodes forming the tree
  */
 const pentominoTree = (rNode) => tPentominos.setPentominos(
-    getFullTree(4, [rNode])
+    getFullTree(constants.DEPTH_OF_PENTOMINO_IN_TREE, [rNode])
 );
 
 /**

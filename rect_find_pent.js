@@ -7,6 +7,7 @@
  * Find all possible pentominos to fit in the first available spot in
  * a configuration of pentominos in a rectangle
  */
+const constants = require('./constants');
 const rectNextStart = require('./rect_next_start');
 const pentUtils = require('./pent_utils');
 
@@ -31,8 +32,6 @@ const getPlacements = (tree) => (rect) => markBadNodesWrap(
     (bnode3) => bnode3[1]
 ).filter((bnode4) => notInRect(tree[bnode4].symbol, rect));
 
-const DEPTH_OF_PENTOMINO_IN_TREE = 4;
-Object.freeze(DEPTH_OF_PENTOMINO_IN_TREE);
 /**
  * If bad property is set for a node, make sure that all offspring nodes
  * are also marked as being bad.
@@ -45,7 +44,7 @@ Object.freeze(DEPTH_OF_PENTOMINO_IN_TREE);
  */
 const markBadNodesWrap = (origin) => (tree) => (rect) => repeatCall(
     markBadNodes(origin)(tree)(rect),
-    DEPTH_OF_PENTOMINO_IN_TREE
+    constants.DEPTH_OF_PENTOMINO_IN_TREE
 );
 
 /**
@@ -78,7 +77,6 @@ const calcSqLoc = (origin, node, rect) => evalSq(
     origin[1] + node.point.col,
     rect
 );
-
 /**
  * Recursively call wrapBadNodeCheck to find all offspring of bad nodes
  *

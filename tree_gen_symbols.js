@@ -9,6 +9,7 @@
  * Given a pentomino tree, extract pentomino figure numbers and assign
  * a corresponding symbol to each
  */
+const constants = require('./constants');
 const pentUtils = require('./pent_utils');
 
 /**
@@ -21,8 +22,6 @@ const generateTreeWithSymbols = (nTree) => addSymbolProp(
     symbolEntries(nTree)
 )(nTree);
 
-const PENTOMINO = 'pentomino';
-Object.freeze(PENTOMINO);
 /**
  * For a node in the tree, add a symbol property if needed.
  *
@@ -31,7 +30,7 @@ Object.freeze(PENTOMINO);
  * @return {Object} updated node
  */
 const addSymbolProp = (tbl) => (nTree) => nTree.map((node) => (
-    node.hasOwnProperty(PENTOMINO) ?
+    node.hasOwnProperty(constants.PENTOMINO) ?
     pentUtils.putInNewProp(node, 'symbol', tbl[node.pentomino]) :
     node
 ));
@@ -72,7 +71,7 @@ const getFigTable = (nTree) => getFigInfo(nTree).reduce(
  * @return {Array} List of pentomino numbers
  */
 const getFigInfo = (nTree) => nTree.filter(
-    (node) => node.hasOwnProperty(PENTOMINO)
+    (node) => node.hasOwnProperty(constants.PENTOMINO)
 ).map((nodeProp) => nodeProp.pentomino);
 
 exports.generateTreeWithSymbols = generateTreeWithSymbols;

@@ -15,6 +15,7 @@
  * unique bit location in an integer is returned.  The sum of all these
  * integers then results in a unique id for that set of points.
  */
+const constants = require('./constants');
 const pentUtils = require('./pent_utils');
 
 /**
@@ -35,7 +36,7 @@ const getFigs = (tnew) => (tree) => tnew.map(setFigValue(tree));
  */
 const setFigValue = (tree) => (tnode) => pentUtils.putInNewProp(
     tnode,
-    'figure',
+    constants.FIGURE,
     getFigValue(tree)(tnode)
 );
 

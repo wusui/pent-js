@@ -13,6 +13,7 @@
  * immediate ancestor of this node on the tree) and branches (descendant
  * nodes on the tree).
  */
+const constants = require('./constants');
 const tPoints = require('./tree_points');
 const pentUtils = require('./pent_utils');
 
@@ -28,7 +29,7 @@ const pentUtils = require('./pent_utils');
  *         has no branches
  */
 const addBranches = (tree) => (tnode, index) => (
-    tnode.hasOwnProperty('branches') ?
+    tnode.hasOwnProperty(constants.BRANCHES) ?
     tnode :
     pentUtils.putInNewProp(tnode, 'offspring', {
       'index': index,

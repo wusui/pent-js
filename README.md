@@ -24,7 +24,7 @@ or an object that is immediately frozen.  As far as I can tell, no parameters
 are changed by the execution of this program.  So I believe this code is
 a pure functional programming implementation.
 
- ![figure1](http://www.warrenusui.com/toybox/src/drawings/test.png "figure1")
+ [![figure1](http://www.warrenusui.com/toybox/src/drawings/test.png)](http://www.warrenusui.com/)
  
  More text goes here
  

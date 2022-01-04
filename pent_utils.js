@@ -45,7 +45,7 @@ const rangeNum = (size, start) => [...new Array(size).keys()].map(
 
 const HORIZONTAL_OFFSETS = [0, 0, 2, 6, 12];
 Object.freeze(HORIZONTAL_OFFSETS);
-const VERTICAL_OFFSETS = [0, 0, -1, -2, -3];
+const VERTICAL_OFFSETS = [0, 0, 1, 2, 3];
 Object.freeze(VERTICAL_OFFSETS);
 
 /**
@@ -57,7 +57,7 @@ Object.freeze(VERTICAL_OFFSETS);
  * @return {Integer} uniqe id for this point
  */
 const evalNumb2 = (sumv) => (rowv) => (
-  HORIZONTAL_OFFSETS[sumv] + rowv - VERTICAL_OFFSETS[sumv]
+  HORIZONTAL_OFFSETS[sumv] + rowv + VERTICAL_OFFSETS[sumv]
 );
 
 /**

@@ -21,13 +21,19 @@ node.js v16.13.1.
 
 Everything other than the console log call is either a const function
 or an object that is immediately frozen.  As far as I can tell, no parameters
-are changed by the execution of this program.  So I believe this code is
+are changed by the execution of this program.  So I believe that this code is
 a pure functional programming implementation.
 
- [![figure1](http://www.warrensusui.com/toybox/src/drawings/figure1.png)](http://www.warrensusui.com/)
- 
- More text goes here
- 
+###GENERAL ALGORITHM
+This program recursively tries placing different pentominos in a grid.  When adding
+a pentomino, the position that is selected to place a pentomino is the leftmost highest
+empty square.  With this restriction, we know that any square in the pentomino added will
+not be further left of that square, and any square in the pentomino in the same column
+as that square will be lower in the grid.  We also know that every square in the pentomino
+will be at most 4 horizontal + vertical steps away from that starting square.  So the figure
+below is a template of all possible square locations that a pentomino can have relative to
+the starting point (X in this figure).
+
  <p align="center">
  <img src="http://www.warrensusui.com/toybox/src/drawings/figure1.png" alt="figure1"/>
  </p>

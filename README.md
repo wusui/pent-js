@@ -24,8 +24,8 @@ or an object that is immediately frozen.  As far as I can tell, no parameters
 are changed by the execution of this program.  So I believe this code is
 a pure functional programming implementation.
 
- [![figure1](http://www.warrensusui.com/toybox/src/drawings/test.png)](http://www.warrensusui.com/)
+ [![figure1](http://www.warrensusui.com/toybox/src/drawings/figure1.png)](http://www.warrensusui.com/)
  
  More text goes here
  
- <img src="http://www.warrensusui.com/toybox/src/drawings/test.png" alt="figure1" style="height: 100px; width: 100px;"/>
+ <img src="http://www.warrensusui.com/toybox/src/drawings/figure1.png" alt="figure1" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>

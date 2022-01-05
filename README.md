@@ -28,4 +28,6 @@ a pure functional programming implementation.
  
  More text goes here
  
- <img src="http://www.warrensusui.com/toybox/src/drawings/figure1.png" alt="figure1" style="display: block; margin-left: auto; margin-right: auto; width: 50%;"/>
+ <p align="center">
+ <img src="http://www.warrensusui.com/toybox/src/drawings/figure1.png" alt="figure1" style="display: block; margin-left: auto; margin-right: auto; width: 99%;"/>
+ </p>

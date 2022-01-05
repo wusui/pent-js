@@ -24,7 +24,7 @@ or an object that is immediately frozen.  As far as I can tell, no parameters
 are changed by the execution of this program.  So I believe that this code is
 a pure functional programming implementation.
 
-###GENERAL ALGORITHM
+### GENERAL ALGORITHM
 This program recursively tries placing different pentominos in a grid.  When adding
 a pentomino, the position that is selected to place a pentomino is the leftmost highest
 empty square.  With this restriction, we know that any square in the pentomino added will
@@ -37,3 +37,43 @@ the starting point (X in this figure).
  <p align="center">
  <img src="http://www.warrensusui.com/toybox/src/drawings/figure1.png" alt="figure1"/>
  </p>
+
+Each square in this template is uniquely numbered.  By always including X in any pentomino,
+a pentomino placed in the grid can be identified by four numbers.  For example, the W-pentomino
+has the following four orientations: [1, 4, 19,17], [0, 4, 9, 17], [0, 2, 7, 13], and [0, 1, 2, 7].
+When two is raised to the power of each of the identifying numbers and the values added together,
+the result is a unique number representing one of the pentomino layouts.
+
+### RECTANGLES AND X-PENTOMINO SYMMETRY
+
+The number of squares in the rectangle being solved must be 60 (12 pentominos of 5 squares each).
+No matter how it is oriented, any pentomino that takes up a 3x3 area (X, Y, Z, F, T, V) cannot fit
+in a 1x60 or 2x30 rectangle.  So the only valid pentomino dimensions are 3x20, 4x15, 5x12, and 6x10
+(7, 8, and 9 do not evenly divide 60, and any higher number that is valid will just be a rotation of
+one of the other rectangles listed).
+
+A solution can be rotation or reflection of another solution.  If we limit the row count to be the
+smaller dimension, in most cases there are four possible orientations for a solution.  The soution
+can be unchanged, flipped along the X-axis, flipped along the Y-axis, or flipped on both the X-axis
+and the Y-axis. As it turns out, flipping along both axis is equivalent to rotating the pentomino
+180 degrees.
+
+If we limit the location of the center of the X-Pentomino to be in the upper left quadrant of a
+solution, then the other three orientations of the solution would place the center of the X-pentomino
+in each of the other three quadrants.  Thus we can solve for only one orientation by restricting
+the X-Pentomino location.  This would work for any pentomino, but for simplification the X-pentomino
+is the best since there is only one orientation for it so all that is needed to specify where it is
+and how it is layed out is location of the center.
+
+### SPECIAL SYMMETRY CASES AND THE W-PENTOMINO
+
+When one of the dimensions of the rectangle is odd (the row count in 3x20 and 5x12 rectangles and
+the column count in 4x15 rectangles), then if the center of the X-Pentomino is on the center axis
+the solution can be flipped along that axis and essentially produce a mirror image duplicate.  To
+avoid this from happening, the location of the W-Pentomino is checked.  If there are more points
+in the W-Pentomino to the left of or above the axis of rotation, then that solution or partial
+solution is rejected.  The W-Pentomino was chosen for this test because no matter how it is oriented,
+it will never have the same number of points on the same side of either the X or the Y axis.
+Testing that it is not in the first half of a partial solution is an easier check than making sure
+that if it is placed it is placed in either half.
+
